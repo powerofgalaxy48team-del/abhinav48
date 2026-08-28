@@ -138,7 +138,7 @@ function Index() {
           <h1
             className="mega-type text-foreground"
             style={{
-              fontSize: "clamp(3.5rem, 23.2vw, 24rem)",
+              fontSize: "clamp(3.5rem, 38.5vw, 40rem)",
               transform: `scaleY(1.35) translateY(${scrollY * -0.06}px)`,
             }}
           >
