@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
-import sigil from "@/assets/sigil.jpg";
+
 import helmet from "@/assets/helmet.png";
 
 import nietzsche from "@/assets/nietzsche.png.asset.json";
