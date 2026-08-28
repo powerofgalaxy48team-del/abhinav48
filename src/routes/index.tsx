@@ -140,14 +140,14 @@ function Index() {
             style={{ transform: `translateY(${scrollY * -0.06}px)` }}
           >
             <svg
-              viewBox="0 0 1000 200"
+              viewBox="0 0 1000 185"
               preserveAspectRatio="none"
               aria-hidden="true"
-              className="h-[26vh] w-full md:h-[42vh]"
+              className="block h-[22vh] w-full md:h-[34vh]"
             >
               <text
                 x="0"
-                y="168"
+                y="182"
                 textLength="1000"
                 lengthAdjust="spacingAndGlyphs"
                 fill="currentColor"
@@ -166,7 +166,7 @@ function Index() {
         </div>
 
 
-        {/* helmet figure */}
+        {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
           style={{ transform: `translateY(${scrollY * 0.12}px)` }}
@@ -176,7 +176,11 @@ function Index() {
             width={1200}
             height={1408}
             alt="Faceless astronaut helmet with violet smoke — the site's cosmic sigil"
-            className="helmet-mask float-slow h-[62vh] w-auto object-contain md:h-[78vh]"
+            className="float-slow h-[78vh] w-auto object-contain md:h-[92vh]"
+            style={{
+              maskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
+              WebkitMaskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
+            }}
           />
         </div>
 
