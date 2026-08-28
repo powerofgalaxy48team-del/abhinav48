@@ -16,8 +16,8 @@ export function Reveal({
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
           setShown(true);
           io.disconnect();
         }
