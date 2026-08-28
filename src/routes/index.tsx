@@ -186,15 +186,15 @@ function Index() {
 
         {/* corner meta */}
         <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 items-end justify-between gap-6 px-6 pb-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-          <div className="space-y-1">
-            <p className="font-sans text-2xl normal-case tracking-normal text-foreground md:text-3xl">
+          <div className="space-y-3">
+            <p className="role-stack text-4xl normal-case md:text-6xl lg:text-7xl">
               Researcher
               <br />
               Web Designer
               <br />
               Quantum &amp; DIY
             </p>
-            <p className="pt-4">since 2013 · &lt;&lt;&lt;&lt;</p>
+            <p className="pt-2">since 2013 · &lt;&lt;&lt;&lt;</p>
             <p className="opacity-60">09.9312 N · 76.2673 E · Kerala</p>
           </div>
 
