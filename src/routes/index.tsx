@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
-import sigil from "@/assets/sigil.jpg";
+
+import helmet from "@/assets/helmet.png";
+
 import nietzsche from "@/assets/nietzsche.png.asset.json";
 import aurelius from "@/assets/aurelius.webp.asset.json";
 import rumi from "@/assets/rumi.webp.asset.json";
@@ -126,66 +128,97 @@ function Index() {
     <main className="grain relative min-h-screen overflow-x-hidden bg-background">
       <Cursor />
 
-      {/* HERO */}
-      <header className="relative flex min-h-screen items-center overflow-hidden">
+      {/* HERO — cosmos.studio style */}
+      <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
         <div className="starfield twinkle absolute inset-0 opacity-70" />
         <div className="aurora absolute inset-0" />
-        <div className="relative mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-14 px-6 py-24 md:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <p className="eyebrow">Kerala, India · 09°N</p>
-            <h1 className="mt-6 text-5xl leading-[0.95] md:text-8xl">
-              Abhinav
+
+        {/* giant name */}
+        <div className="relative z-10 px-4 pt-8 md:pt-12">
+          <h1
+            aria-label="Abhinav Byju"
+            style={{ transform: `translateY(${scrollY * -0.06}px)` }}
+          >
+            <svg
+              viewBox="0 0 1000 200"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+              className="h-[26vh] w-full md:h-[42vh]"
+            >
+              <text
+                x="0"
+                y="168"
+                textLength="1000"
+                lengthAdjust="spacingAndGlyphs"
+                fill="currentColor"
+                className="text-foreground"
+                style={{
+                  fontFamily: "var(--font-condensed)",
+                  fontWeight: 700,
+                  fontSize: "200px",
+                  textTransform: "uppercase",
+                }}
+              >
+                ABHINAV BYJU
+              </text>
+            </svg>
+          </h1>
+        </div>
+
+
+        {/* helmet figure */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
+          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+        >
+          <img
+            src={helmet}
+            width={1200}
+            height={1408}
+            alt="Faceless astronaut helmet with violet smoke — the site's cosmic sigil"
+            className="helmet-mask float-slow h-[62vh] w-auto object-contain md:h-[78vh]"
+          />
+        </div>
+
+        {/* corner meta */}
+        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 items-end justify-between gap-6 px-6 pb-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <div className="space-y-1">
+            <p className="font-sans text-2xl normal-case tracking-normal text-foreground md:text-3xl">
+              Researcher
               <br />
-              <span className="italic text-primary">Byju</span>
-            </h1>
-            <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-              Researcher. Website designer. A quantum-physics and DIY-electronics enthusiast who
-              reads psychology like other people read weather forecasts.
+              Web Designer
+              <br />
+              Quantum &amp; DIY
             </p>
-            <div className="mt-10 flex flex-wrap gap-3 font-mono text-xs">
-              {["Researcher", "Web Designer", "Quantum & DIY", "Reader"].map((r) => (
-                <span
-                  key={r}
-                  className="rounded-full border border-border px-4 py-2 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  {r}
-                </span>
-              ))}
-            </div>
-            <div className="mt-12 flex gap-6 text-sm">
-              <a href="#library" className="border-b border-primary pb-1 text-primary">
-                Enter the library
-              </a>
-              <a href="#work" className="border-b border-border pb-1 text-muted-foreground">
-                See the work
-              </a>
-            </div>
+            <p className="pt-4">since 2013 · &lt;&lt;&lt;&lt;</p>
+            <p className="opacity-60">09.9312 N · 76.2673 E · Kerala</p>
           </div>
 
-          <div
-            className="relative mx-auto w-full max-w-sm"
-            style={{ transform: `translateY(${scrollY * -0.08}px)`, perspective: "1000px" }}
-          >
-            <div className="float-slow relative">
-              <div
-                className="absolute inset-0 rounded-full blur-3xl"
-                style={{ boxShadow: "var(--shadow-glow)", background: "var(--gradient-aurora)" }}
-              />
-              <img
-                src={sigil}
-                width={1024}
-                height={1024}
-                alt="Abstract sigil: a faceless profile dissolving into a violet and gold galaxy"
-                className="relative rounded-full border border-border/60 object-cover"
-                style={{ boxShadow: "var(--shadow-float)" }}
-              />
-            </div>
-            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-              No face — only the signal
+          <div className="hidden flex-col items-end gap-6 text-right md:flex">
+            <p className="leading-relaxed">
+              Creating
+              <br />
+              memorable
+              <br />
+              digital
+              <br />
+              experiences
             </p>
+            <a
+              href="#work"
+              className="group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
+              style={{ boxShadow: "var(--shadow-glow)" }}
+            >
+              <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
+                Explore
+              </span>
+            </a>
           </div>
         </div>
+
+        <div className="absolute inset-x-0 bottom-0 z-30 h-24 bg-gradient-to-t from-background to-transparent" />
       </header>
+
 
       {/* RESEARCH */}
       <Section
