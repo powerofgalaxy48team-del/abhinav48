@@ -77,11 +77,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Abhinav Byju — Researcher & Web Designer" },
+      {
+        name: "description",
+        content:
+          "Personal site of Abhinav Byju from Kerala, India — research, web design, quantum physics, DIY electronics and a library of psychology books.",
+      },
+      { name: "author", content: "Abhinav Byju" },
+      { property: "og:site_name", content: "Abhinav Byju" },
+      { property: "og:title", content: "Abhinav Byju — Researcher & Web Designer" },
+      {
+        property: "og:description",
+        content:
+          "Research, web design, quantum curiosity and a library of psychology books — the personal site of Abhinav Byju.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
