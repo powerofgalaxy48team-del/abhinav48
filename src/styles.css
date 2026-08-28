@@ -34,8 +34,10 @@
   --color-ember: var(--ember);
   --color-void: var(--void);
   --font-display: "Instrument Serif", Georgia, serif;
+  --font-condensed: "Big Shoulders Display", "Arial Narrow", sans-serif;
   --font-sans: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
 }
 
 :root {
