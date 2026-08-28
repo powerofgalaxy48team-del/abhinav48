@@ -136,7 +136,7 @@ function Index() {
         {/* giant name */}
         <div className="relative z-10 px-4 pt-8 md:pt-12">
           <h1
-            aria-label="Abhinav Byju"
+            aria-label="Abhinav Byju — Researcher & Web Designer"
             style={{ transform: `translateY(${scrollY * -0.06}px)` }}
           >
             <svg
