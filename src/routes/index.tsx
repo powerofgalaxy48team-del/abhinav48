@@ -134,17 +134,37 @@ function Index() {
         <div className="aurora absolute inset-0" />
 
         {/* giant name */}
-        <div className="relative z-10 px-4 pt-10 md:pt-14">
+        <div className="relative z-10 px-4 pt-8 md:pt-12">
           <h1
-            className="mega-type text-foreground"
-            style={{
-              fontSize: "clamp(3.5rem, 38.5vw, 40rem)",
-              transform: `scaleY(1.35) translateY(${scrollY * -0.06}px)`,
-            }}
+            aria-label="Abhinav Byju"
+            style={{ transform: `translateY(${scrollY * -0.06}px)` }}
           >
-            Abhinav Byju
+            <svg
+              viewBox="0 0 1000 200"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+              className="h-[26vh] w-full md:h-[42vh]"
+            >
+              <text
+                x="0"
+                y="168"
+                textLength="1000"
+                lengthAdjust="spacingAndGlyphs"
+                fill="currentColor"
+                className="text-foreground"
+                style={{
+                  fontFamily: "var(--font-condensed)",
+                  fontWeight: 700,
+                  fontSize: "200px",
+                  textTransform: "uppercase",
+                }}
+              >
+                ABHINAV BYJU
+              </text>
+            </svg>
           </h1>
         </div>
+
 
         {/* helmet figure */}
         <div
