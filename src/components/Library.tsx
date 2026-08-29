@@ -38,6 +38,8 @@ const shelfTwo: Book[] = [
 function Shelf({ books }: { books: Book[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [mouseX, setMouseX] = useState<number | null>(null);
+  const [activeHue, setActiveHue] = useState<number | null>(null);
+  const [activeCenter, setActiveCenter] = useState<number | null>(null);
 
   return (
     <div
@@ -46,17 +48,82 @@ function Shelf({ books }: { books: Book[] }) {
         const r = ref.current!.getBoundingClientRect();
         setMouseX(e.clientX - r.left);
       }}
-      onMouseLeave={() => setMouseX(null)}
-      className="relative"
+      onMouseLeave={() => {
+        setMouseX(null);
+        setActiveHue(null);
+        setActiveCenter(null);
+      }}
+      className="relative rounded-xl px-2 py-8"
       style={{ perspective: "1200px" }}
     >
-      <div className="flex items-end justify-center gap-[6px] px-4 pb-1 sm:gap-2">
+      {/* ambient shelf light */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%)",
+        }}
+      />
+
+      {/* moving reading light */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 h-48 w-48 rounded-full opacity-0 transition-opacity duration-500"
+        style={{
+          left: mouseX ?? -200,
+          transform: "translateX(-50%)",
+          opacity: mouseX === null ? 0 : 0.55,
+          background:
+            "radial-gradient(circle, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
+          filter: "blur(16px)",
+        }}
+      />
+
+      <div className="relative flex items-end justify-center gap-[6px] px-4 pb-1 sm:gap-2">
         {books.map((b) => (
-          <Spine key={b.title} book={b} mouseX={mouseX} containerRef={ref} />
+          <Spine
+            key={b.title}
+            book={b}
+            mouseX={mouseX}
+            containerRef={ref}
+            onGlow={(hue, center) => {
+              setActiveHue(hue);
+              setActiveCenter(center);
+            }}
+            onDim={() => {
+              setActiveHue(null);
+              setActiveCenter(null);
+            }}
+          />
         ))}
       </div>
-      {/* shelf plank */}
-      <div className="relative h-4 rounded-sm bg-gradient-to-b from-[oklch(0.32_0.03_60)] to-[oklch(0.18_0.02_60)] shadow-[0_18px_40px_-18px_oklch(0_0_0/0.9)]" />
+
+      {/* shelf plank with reactive light */}
+      <div
+        className="relative h-4 rounded-sm transition-all duration-500"
+        style={{
+          background: `linear-gradient(to bottom, oklch(0.34 0.035 60), oklch(0.20 0.02 60))`,
+          boxShadow:
+            activeHue !== null && activeCenter !== null
+              ? `0 18px 40px -18px oklch(0 0 0/0.9), 0 0 ${24}px -4px oklch(0.65 0.12 ${activeHue} / 0.55)`
+              : "0 18px 40px -18px oklch(0 0 0/0.9)",
+        }}
+      >
+        {/* light streak on plank */}
+        <div
+          aria-hidden
+          className="absolute inset-y-0 w-24 blur-md transition-all duration-300"
+          style={{
+            left: activeCenter ?? -100,
+            transform: "translateX(-50%)",
+            opacity: activeCenter !== null ? 0.7 : 0,
+            background: activeHue
+              ? `linear-gradient(90deg, transparent, oklch(0.75 0.13 ${activeHue} / 0.45), transparent)`
+              : "transparent",
+          }}
+        />
+      </div>
       <div className="mx-6 h-6 rounded-b-xl bg-gradient-to-b from-[oklch(0.16_0.02_60)] to-transparent" />
     </div>
   );
