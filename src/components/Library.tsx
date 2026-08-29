@@ -133,10 +133,14 @@ function Spine({
   book,
   mouseX,
   containerRef,
+  onGlow,
+  onDim,
 }: {
   book: Book;
   mouseX: number | null;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  onGlow: (hue: number, center: number) => void;
+  onDim: () => void;
 }) {
   const el = useRef<HTMLDivElement>(null);
   const [center, setCenter] = useState(0);
@@ -156,6 +160,15 @@ function Spine({
   const dist = mouseX === null ? 9999 : Math.abs(mouseX - center);
   const proximity = Math.max(0, 1 - dist / 90);
   const out = proximity * 46;
+  const isLit = proximity > 0.45;
+
+  useEffect(() => {
+    if (isLit) {
+      onGlow(book.hue, center);
+    } else if (mouseX === null) {
+      onDim();
+    }
+  }, [isLit, center, book.hue, mouseX, onGlow, onDim]);
 
   return (
     <div ref={el} className="relative" style={{ transformStyle: "preserve-3d" }}>
@@ -164,9 +177,13 @@ function Spine({
         style={{
           height: book.tall ? 210 : 178,
           transform: `translateY(${-out}px) rotateX(${proximity * 6}deg)`,
-          transition: "transform 420ms cubic-bezier(0.16,1,0.3,1)",
-          background: `linear-gradient(100deg, oklch(0.30 0.07 ${book.hue}), oklch(0.42 0.10 ${book.hue}) 45%, oklch(0.24 0.06 ${book.hue}))`,
-          boxShadow: `inset -3px 0 6px oklch(0 0 0/0.45), inset 3px 0 4px oklch(1 0 0/0.06), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8)`,
+          transition: "transform 420ms cubic-bezier(0.16,1,0.3,1), box-shadow 420ms ease, background 420ms ease",
+          background: isLit
+            ? `linear-gradient(100deg, oklch(0.40 0.09 ${book.hue}), oklch(0.56 0.13 ${book.hue}) 45%, oklch(0.32 0.07 ${book.hue}))`
+            : `linear-gradient(100deg, oklch(0.30 0.07 ${book.hue}), oklch(0.42 0.10 ${book.hue}) 45%, oklch(0.24 0.06 ${book.hue}))`,
+          boxShadow: isLit
+            ? `inset -3px 0 6px oklch(0 0 0/0.35), inset 3px 0 4px oklch(1 0 0/0.12), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8), 0 0 ${18 + proximity * 22}px -6px oklch(0.70 0.14 ${book.hue} / ${0.55 + proximity * 0.35})`
+            : `inset -3px 0 6px oklch(0 0 0/0.45), inset 3px 0 4px oklch(1 0 0/0.06), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8)`,
         }}
       >
         <span
@@ -179,6 +196,16 @@ function Spine({
           className="absolute inset-x-[3px] top-[6px] h-[2px] rounded-full"
           style={{ background: `oklch(0.82 0.13 82 / ${0.35 + proximity * 0.5})` }}
         />
+
+        {/* top edge highlight when lit */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[2px] rounded-t-[3px] transition-opacity duration-300"
+          style={{
+            opacity: isLit ? 0.9 : 0,
+            background: `linear-gradient(90deg, transparent, oklch(0.85 0.10 ${book.hue}), transparent)`,
+          }}
+        />
       </div>
 
       <div
@@ -187,7 +214,9 @@ function Spine({
           opacity: proximity > 0.55 ? 1 : 0,
           transform: `translate(-50%, ${proximity > 0.55 ? -14 : -4}px)`,
           transition: "opacity 260ms ease, transform 260ms ease",
-          boxShadow: "var(--shadow-float)",
+          boxShadow: isLit
+            ? `0 0 ${20}px -6px oklch(0.70 0.14 ${book.hue} / 0.5), var(--shadow-float)`
+            : "var(--shadow-float)",
         }}
       >
         <p className="font-display text-base leading-tight">{book.title}</p>
