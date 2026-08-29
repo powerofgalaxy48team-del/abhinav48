@@ -38,6 +38,8 @@ const shelfTwo: Book[] = [
 function Shelf({ books }: { books: Book[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [mouseX, setMouseX] = useState<number | null>(null);
+  const [activeHue, setActiveHue] = useState<number | null>(null);
+  const [activeCenter, setActiveCenter] = useState<number | null>(null);
 
   return (
     <div
@@ -46,17 +48,82 @@ function Shelf({ books }: { books: Book[] }) {
         const r = ref.current!.getBoundingClientRect();
         setMouseX(e.clientX - r.left);
       }}
-      onMouseLeave={() => setMouseX(null)}
-      className="relative"
+      onMouseLeave={() => {
+        setMouseX(null);
+        setActiveHue(null);
+        setActiveCenter(null);
+      }}
+      className="relative rounded-xl px-2 py-8"
       style={{ perspective: "1200px" }}
     >
-      <div className="flex items-end justify-center gap-[6px] px-4 pb-1 sm:gap-2">
+      {/* ambient shelf light */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%)",
+        }}
+      />
+
+      {/* moving reading light */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 h-48 w-48 rounded-full opacity-0 transition-opacity duration-500"
+        style={{
+          left: mouseX ?? -200,
+          transform: "translateX(-50%)",
+          opacity: mouseX === null ? 0 : 0.55,
+          background:
+            "radial-gradient(circle, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
+          filter: "blur(16px)",
+        }}
+      />
+
+      <div className="relative flex items-end justify-center gap-[6px] px-4 pb-1 sm:gap-2">
         {books.map((b) => (
-          <Spine key={b.title} book={b} mouseX={mouseX} containerRef={ref} />
+          <Spine
+            key={b.title}
+            book={b}
+            mouseX={mouseX}
+            containerRef={ref}
+            onGlow={(hue, center) => {
+              setActiveHue(hue);
+              setActiveCenter(center);
+            }}
+            onDim={() => {
+              setActiveHue(null);
+              setActiveCenter(null);
+            }}
+          />
         ))}
       </div>
-      {/* shelf plank */}
-      <div className="relative h-4 rounded-sm bg-gradient-to-b from-[oklch(0.32_0.03_60)] to-[oklch(0.18_0.02_60)] shadow-[0_18px_40px_-18px_oklch(0_0_0/0.9)]" />
+
+      {/* shelf plank with reactive light */}
+      <div
+        className="relative h-4 rounded-sm transition-all duration-500"
+        style={{
+          background: `linear-gradient(to bottom, oklch(0.34 0.035 60), oklch(0.20 0.02 60))`,
+          boxShadow:
+            activeHue !== null && activeCenter !== null
+              ? `0 18px 40px -18px oklch(0 0 0/0.9), 0 0 ${24}px -4px oklch(0.65 0.12 ${activeHue} / 0.55)`
+              : "0 18px 40px -18px oklch(0 0 0/0.9)",
+        }}
+      >
+        {/* light streak on plank */}
+        <div
+          aria-hidden
+          className="absolute inset-y-0 w-24 blur-md transition-all duration-300"
+          style={{
+            left: activeCenter ?? -100,
+            transform: "translateX(-50%)",
+            opacity: activeCenter !== null ? 0.7 : 0,
+            background: activeHue
+              ? `linear-gradient(90deg, transparent, oklch(0.75 0.13 ${activeHue} / 0.45), transparent)`
+              : "transparent",
+          }}
+        />
+      </div>
       <div className="mx-6 h-6 rounded-b-xl bg-gradient-to-b from-[oklch(0.16_0.02_60)] to-transparent" />
     </div>
   );
@@ -66,10 +133,14 @@ function Spine({
   book,
   mouseX,
   containerRef,
+  onGlow,
+  onDim,
 }: {
   book: Book;
   mouseX: number | null;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  onGlow: (hue: number, center: number) => void;
+  onDim: () => void;
 }) {
   const el = useRef<HTMLDivElement>(null);
   const [center, setCenter] = useState(0);
@@ -89,6 +160,15 @@ function Spine({
   const dist = mouseX === null ? 9999 : Math.abs(mouseX - center);
   const proximity = Math.max(0, 1 - dist / 90);
   const out = proximity * 46;
+  const isLit = proximity > 0.45;
+
+  useEffect(() => {
+    if (isLit) {
+      onGlow(book.hue, center);
+    } else if (mouseX === null) {
+      onDim();
+    }
+  }, [isLit, center, book.hue, mouseX, onGlow, onDim]);
 
   return (
     <div ref={el} className="relative" style={{ transformStyle: "preserve-3d" }}>
@@ -97,9 +177,13 @@ function Spine({
         style={{
           height: book.tall ? 210 : 178,
           transform: `translateY(${-out}px) rotateX(${proximity * 6}deg)`,
-          transition: "transform 420ms cubic-bezier(0.16,1,0.3,1)",
-          background: `linear-gradient(100deg, oklch(0.30 0.07 ${book.hue}), oklch(0.42 0.10 ${book.hue}) 45%, oklch(0.24 0.06 ${book.hue}))`,
-          boxShadow: `inset -3px 0 6px oklch(0 0 0/0.45), inset 3px 0 4px oklch(1 0 0/0.06), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8)`,
+          transition: "transform 420ms cubic-bezier(0.16,1,0.3,1), box-shadow 420ms ease, background 420ms ease",
+          background: isLit
+            ? `linear-gradient(100deg, oklch(0.40 0.09 ${book.hue}), oklch(0.56 0.13 ${book.hue}) 45%, oklch(0.32 0.07 ${book.hue}))`
+            : `linear-gradient(100deg, oklch(0.30 0.07 ${book.hue}), oklch(0.42 0.10 ${book.hue}) 45%, oklch(0.24 0.06 ${book.hue}))`,
+          boxShadow: isLit
+            ? `inset -3px 0 6px oklch(0 0 0/0.35), inset 3px 0 4px oklch(1 0 0/0.12), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8), 0 0 ${18 + proximity * 22}px -6px oklch(0.70 0.14 ${book.hue} / ${0.55 + proximity * 0.35})`
+            : `inset -3px 0 6px oklch(0 0 0/0.45), inset 3px 0 4px oklch(1 0 0/0.06), 0 ${8 + out / 3}px ${14 + out / 2}px -8px oklch(0 0 0/0.8)`,
         }}
       >
         <span
@@ -112,6 +196,16 @@ function Spine({
           className="absolute inset-x-[3px] top-[6px] h-[2px] rounded-full"
           style={{ background: `oklch(0.82 0.13 82 / ${0.35 + proximity * 0.5})` }}
         />
+
+        {/* top edge highlight when lit */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[2px] rounded-t-[3px] transition-opacity duration-300"
+          style={{
+            opacity: isLit ? 0.9 : 0,
+            background: `linear-gradient(90deg, transparent, oklch(0.85 0.10 ${book.hue}), transparent)`,
+          }}
+        />
       </div>
 
       <div
@@ -120,7 +214,9 @@ function Spine({
           opacity: proximity > 0.55 ? 1 : 0,
           transform: `translate(-50%, ${proximity > 0.55 ? -14 : -4}px)`,
           transition: "opacity 260ms ease, transform 260ms ease",
-          boxShadow: "var(--shadow-float)",
+          boxShadow: isLit
+            ? `0 0 ${20}px -6px oklch(0.70 0.14 ${book.hue} / 0.5), var(--shadow-float)`
+            : "var(--shadow-float)",
         }}
       >
         <p className="font-display text-base leading-tight">{book.title}</p>
