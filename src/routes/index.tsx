@@ -130,7 +130,7 @@ function Index() {
 
       {/* HERO — cosmos.studio style */}
       <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
-        <div className="starfield twinkle absolute inset-0 opacity-70" />
+        <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
 
         {/* giant name */}
