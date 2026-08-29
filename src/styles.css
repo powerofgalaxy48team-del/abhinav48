@@ -134,6 +134,7 @@
     379px 281px,
     313px 389px,
     431px 337px;
+  animation: stars-near-drift 34s linear infinite;
 
   &::before,
   &::after {
@@ -146,13 +147,13 @@
       radial-gradient(circle at 67% 44%, var(--color-foreground) 0 1.4px, transparent 1.9px),
       radial-gradient(circle at 83% 76%, var(--color-foreground) 0 1.7px, transparent 2.2px);
     background-size: 503px 421px, 617px 509px, 557px 463px;
-    animation: star-drift 26s linear infinite, star-pulse 5.5s ease-in-out infinite;
+    animation: stars-mid-drift 22s linear infinite, star-pulse 5.5s ease-in-out infinite;
   }
 
   &::after {
     opacity: 0.45;
     transform: scale(1.12) rotate(8deg);
-    animation-duration: 38s, 7s;
+    animation-duration: 42s, 7s;
     animation-direction: reverse, alternate;
   }
 }
@@ -213,12 +214,21 @@
   }
 }
 
-@keyframes star-drift {
+@keyframes stars-near-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 90px 130px;
+  }
+}
+
+@keyframes stars-mid-drift {
   from {
     background-position: 0 0, 0 0, 0 0;
   }
   to {
-    background-position: 34px -28px, -26px 32px, 22px -36px;
+    background-position: 120px -90px, -95px 130px, 80px -115px;
   }
 }
 
@@ -237,6 +247,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .cosmos-stars,
   .cosmos-stars::before,
   .cosmos-stars::after {
     animation: none;
