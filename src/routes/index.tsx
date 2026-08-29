@@ -209,6 +209,7 @@ function Index() {
               THE SURFACE OF
               <br />
               THE VISIBLE WORLD
+              <br />
             </p>
             <a
               href="#work"
