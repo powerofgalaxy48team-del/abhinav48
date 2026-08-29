@@ -200,13 +200,15 @@ function Index() {
 
           <div className="hidden flex-col items-end gap-6 text-right md:flex">
             <p className="leading-relaxed">
-              Creating
+              FINDING DEEP,
               <br />
-              memorable
+              ULTIMATE TRUTH HIDDEN
               <br />
-              digital
+              &nbsp;JUST BENEATH
               <br />
-              experiences
+              THE SURFACE OF
+              <br />
+              THE VISIBLE WORLD
             </p>
             <a
               href="#work"
