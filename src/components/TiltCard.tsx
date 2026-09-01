@@ -1,3 +1,4 @@
+import { useIsMobile } from "@/hooks/use-mobile";
 import { memo, useCallback, useEffect, useRef, type ReactNode } from "react";
 
 type TiltCardProps = {
@@ -13,6 +14,7 @@ function TiltCardComponent({
   className = "",
   intensity = 10,
 }: TiltCardProps) {
+  const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const rectRef = useRef<DOMRect | null>(null);
@@ -50,16 +52,16 @@ function TiltCardComponent({
   }, [renderFrame]);
 
   const onPointerEnter = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType === "touch" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (isMobile || e.pointerType === "touch" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const el = ref.current;
     if (!el) return;
     rectRef.current = el.getBoundingClientRect();
     activeRef.current = true;
     el.dataset["tilting"] = "true";
-  }, []);
+  }, [isMobile]);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!activeRef.current) return;
+    if (isMobile || !activeRef.current) return;
     const rect = rectRef.current;
     if (!rect) return;
     targetRef.current = {
@@ -67,16 +69,17 @@ function TiltCardComponent({
       y: Math.max(-0.5, Math.min(0.5, (e.clientY - rect.top) / rect.height - 0.5)),
     };
     requestRender();
-  }, [requestRender]);
+  }, [isMobile, requestRender]);
 
   const onPointerLeave = useCallback(() => {
+    if (isMobile) return;
     const el = ref.current;
     if (!el) return;
     activeRef.current = false;
     targetRef.current = { x: 0, y: 0 };
     el.dataset["tilting"] = "false";
     requestRender();
-  }, [requestRender]);
+  }, [isMobile, requestRender]);
 
   useEffect(() => () => {
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -88,10 +91,11 @@ function TiltCardComponent({
       onPointerEnter={onPointerEnter}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className={`card-3d group relative overflow-hidden rounded-lg border border-border bg-card/60 backdrop-blur-sm ${className}`}
-      style={{ boxShadow: "var(--shadow-float)" }}
+      data-mobile={isMobile ? "true" : "false"}
+      className={`card-3d group relative overflow-hidden rounded-lg border border-border bg-card/60 backdrop-blur-sm ${isMobile ? "card-3d--mobile" : ""} ${className}`}
+      style={{ boxShadow: isMobile ? "var(--shadow-float-soft)" : "var(--shadow-float)" }}
     >
-      <div className="card-3d__glare pointer-events-none absolute inset-0" aria-hidden="true" />
+      {!isMobile && <div className="card-3d__glare pointer-events-none absolute inset-0" aria-hidden="true" />}
       <div className="card-3d__content relative">{children}</div>
     </div>
   );
