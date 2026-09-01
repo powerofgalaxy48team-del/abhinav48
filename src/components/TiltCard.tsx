@@ -97,4 +97,8 @@ function TiltCardComponent({
   );
 }
 
-export const TiltCard = memo(TiltCardComponent);
+const MemoTiltCard = memo(TiltCardComponent);
+
+export function TiltCard(props: TiltCardProps) {
+  return <MemoTiltCard {...props} />;
+}
