@@ -134,7 +134,7 @@ function Index() {
         <div className="aurora absolute inset-0" />
 
         {/* giant name */}
-        <div className="relative z-10 px-4 pt-8 md:pt-12">
+        <div className="relative z-10 px-4 pt-0">
           <h1
             aria-label="Abhinav Byju — Researcher & Web Designer"
             style={{ transform: `translateY(${scrollY * -0.06}px)` }}
@@ -143,7 +143,7 @@ function Index() {
               viewBox="0 0 1000 185"
               preserveAspectRatio="none"
               aria-hidden="true"
-              className="block h-[22vh] w-full md:h-[34vh]"
+              className="block h-[26vh] w-full md:h-[38vh]"
             >
               <text
                 x="0"
