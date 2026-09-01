@@ -70,6 +70,7 @@
     transparent 60%
   );
   --shadow-float: 0 30px 80px -30px oklch(0 0 0 / 0.8);
+  --shadow-float-soft: 0 14px 34px -16px oklch(0 0 0 / 0.55);
   --shadow-glow: 0 0 60px -12px color-mix(in oklab, var(--accent) 55%, transparent);
 }
 
@@ -180,6 +181,20 @@
   transform: perspective(900px) rotateX(0) rotateY(0);
   transition: box-shadow 300ms ease;
   touch-action: pan-y;
+}
+
+.card-3d--mobile {
+  transform-style: flat;
+  contain: content;
+  transform: none !important;
+  will-change: auto;
+  touch-action: auto;
+  transition: transform 180ms ease, box-shadow 220ms ease;
+}
+
+.card-3d--mobile .card-3d__content {
+  transform: none !important;
+  transition: none;
 }
 
 .card-3d[data-tilting="true"] {
