@@ -183,6 +183,20 @@
   touch-action: pan-y;
 }
 
+.card-3d--mobile {
+  transform-style: flat;
+  contain: content;
+  transform: none !important;
+  will-change: auto;
+  touch-action: auto;
+  transition: transform 180ms ease, box-shadow 220ms ease;
+}
+
+.card-3d--mobile .card-3d__content {
+  transform: none !important;
+  transition: none;
+}
+
 .card-3d[data-tilting="true"] {
   will-change: transform;
   box-shadow: var(--shadow-glow), var(--shadow-float) !important;
