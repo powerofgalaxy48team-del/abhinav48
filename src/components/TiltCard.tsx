@@ -55,7 +55,7 @@ function TiltCardComponent({
     if (!el) return;
     rectRef.current = el.getBoundingClientRect();
     activeRef.current = true;
-    el.dataset.tilting = "true";
+    el.dataset["tilting"] = "true";
   }, []);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
@@ -74,7 +74,7 @@ function TiltCardComponent({
     if (!el) return;
     activeRef.current = false;
     targetRef.current = { x: 0, y: 0 };
-    el.dataset.tilting = "false";
+    el.dataset["tilting"] = "false";
     requestRender();
   }, [requestRender]);
 
