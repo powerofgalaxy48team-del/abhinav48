@@ -200,15 +200,13 @@ function Index() {
 
           <div className="hidden flex-col items-end gap-6 text-right md:flex">
             <p className="leading-relaxed">
-              FINDING DEEP,
+              目に見える世界の
               <br />
-              ULTIMATE TRUTH HIDDEN
+              すぐその下に隠された
               <br />
-              &nbsp;JUST BENEATH
+              深く、究極の真理を
               <br />
-              THE SURFACE OF
-              <br />
-              THE VISIBLE WORLD
+              見出すこと
               <br />
             </p>
             <a
