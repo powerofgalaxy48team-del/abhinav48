@@ -1,0 +1,8 @@
+# Roadmap
+
+- [x] Establish black, antique-gold, and violet design tokens
+- [x] Integrate the uploaded golden nebula into the hero and footer
+- [x] Apply Cormorant Garamond and Karla typography
+- [x] Recompose sections into a Japanese editorial magazine hierarchy
+- [x] Preserve and retheme the astronaut, cards, library, and motion
+- [ ] Verify desktop and mobile rendering, runtime, and build health
