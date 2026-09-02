@@ -199,7 +199,7 @@ function Index() {
           </div>
 
           <div className="hidden flex-col items-end gap-6 text-right md:flex">
-            <p className="leading-relaxed">
+            <p className="text-shine text-lg leading-relaxed md:text-xl">
               目に見える世界の
               <br />
               すぐその下に隠された

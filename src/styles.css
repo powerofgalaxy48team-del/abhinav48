@@ -360,6 +360,39 @@
   filter: drop-shadow(0 0 18px color-mix(in oklab, var(--color-accent) 45%, transparent));
 }
 
+@utility text-shine {
+  font-weight: 700;
+  background-image: linear-gradient(
+    110deg,
+    var(--color-foreground) 0%,
+    var(--color-foreground) 35%,
+    color-mix(in oklab, var(--color-accent) 90%, var(--color-foreground)) 48%,
+    color-mix(in oklab, var(--color-primary) 90%, var(--color-foreground)) 52%,
+    var(--color-foreground) 65%,
+    var(--color-foreground) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px color-mix(in oklab, var(--color-accent) 55%, transparent));
+  animation: shine-sweep 3.5s ease-in-out infinite;
+}
+
+@keyframes shine-sweep {
+  0% {
+    background-position: 100% 0;
+  }
+  45%,
+  55% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
 @utility helmet-mask {
   mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
   -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
