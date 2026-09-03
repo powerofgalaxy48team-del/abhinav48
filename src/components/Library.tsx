@@ -45,7 +45,9 @@ function Shelf({ books }: { books: Book[] }) {
     <div
       ref={ref}
       onMouseMove={(e) => {
-        const r = ref.current!.getBoundingClientRect();
+        const shelf = ref.current;
+        if (!shelf) return;
+        const r = shelf.getBoundingClientRect();
         setMouseX(e.clientX - r.left);
       }}
       onMouseLeave={() => {
