@@ -97,23 +97,33 @@ function Cursor() {
 function Section({
   id,
   label,
+  jp,
+  index,
   title,
   children,
 }: {
   id: string;
   label: string;
+  jp?: string;
+  index?: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl px-6 py-24 md:py-32">
+    <section id={id} className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
+      {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
       <Reveal>
-        <p className="eyebrow">{label}</p>
-        <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
+        <div className="flex items-center gap-4">
+          {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
+          <p className="eyebrow">{label}</p>
+          <span className="gold-rule" aria-hidden="true" />
+        </div>
+        <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
       </Reveal>
       <div className="mt-12">{children}</div>
     </section>
   );
+
 }
 
 function Index() {
