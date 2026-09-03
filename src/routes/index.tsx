@@ -5,6 +5,7 @@ import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
 
 import helmet from "@/assets/helmet.png";
+import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
 
 import nietzsche from "@/assets/nietzsche.png.asset.json";
 import aurelius from "@/assets/aurelius.webp.asset.json";
@@ -140,6 +141,9 @@ function Index() {
 
       {/* HERO — cosmos.studio style */}
       <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
+        <div className="nebula-veil absolute inset-0" aria-hidden="true">
+          <img src={goldenNebula.url} alt="" aria-hidden="true" className="nebula-veil__img" />
+        </div>
         <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
 
@@ -239,6 +243,8 @@ function Index() {
       <Section
         id="research"
         label="Fields of inquiry"
+        jp="探究"
+        index="01"
         title="Six directions I keep walking down, mostly at night."
       >
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -257,7 +263,7 @@ function Index() {
       </Section>
 
       {/* WORK */}
-      <Section id="work" label="Built things" title="Websites and one prototype for the planet.">
+      <Section id="work" label="Built things" jp="制作" index="02" title="Websites and one prototype for the planet.">
         <div className="grid gap-6 md:grid-cols-3">
           {[
             {
@@ -332,7 +338,7 @@ function Index() {
       </Section>
 
       {/* QUOTES */}
-      <Section id="quotes" label="Three lines I live near" title="Words that keep rearranging me.">
+      <Section id="quotes" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
         <div className="grid gap-8 md:grid-cols-3">
           {quotes.map((q, i) => (
             <Reveal key={q.by} delay={i * 100}>
@@ -357,10 +363,15 @@ function Index() {
 
       {/* LIBRARY */}
       <section id="library" className="relative overflow-hidden py-24 md:py-32">
+        <span className="vertical-mark" aria-hidden="true">書架</span>
         <div className="starfield absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-5xl px-6">
           <Reveal>
-            <p className="eyebrow">The library</p>
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-xs text-primary">04</span>
+              <p className="eyebrow">The library</p>
+              <span className="gold-rule" aria-hidden="true" />
+            </div>
             <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
               Books I've read, and books that are waiting.
             </h2>
@@ -382,7 +393,7 @@ function Index() {
       </section>
 
       {/* TOPICS */}
-      <Section id="topics" label="Orbiting interests" title="What the mind circles when it's free.">
+      <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
         <div className="flex flex-wrap gap-3">
           {topics.map((t, i) => (
             <Reveal key={t} delay={i * 50}>
@@ -396,6 +407,9 @@ function Index() {
 
       {/* FOOTER */}
       <footer className="relative overflow-hidden border-t border-border">
+        <div className="nebula-veil nebula-veil--footer absolute inset-0" aria-hidden="true">
+          <img src={goldenNebula.url} alt="" aria-hidden="true" className="nebula-veil__img" />
+        </div>
         <div className="aurora absolute inset-0 rotate-180 opacity-60" />
         <div className="relative mx-auto max-w-6xl px-6 py-20 text-center">
           <p className="font-display text-3xl italic md:text-5xl">
