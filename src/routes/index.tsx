@@ -147,6 +147,21 @@ function Index() {
         <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
 
+        <nav className="relative z-40 flex items-center justify-between px-6 pt-6 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground" aria-label="Primary navigation">
+          <a href="#research" className="transition-colors hover:text-primary">AB / 26</a>
+          <div className="hidden items-center gap-6 sm:flex">
+            <a href="#work" className="transition-colors hover:text-primary">Work</a>
+            <a href="#library" className="transition-colors hover:text-primary">Library</a>
+            <a href="#quotes" className="transition-colors hover:text-primary">Notes</a>
+          </div>
+          <span className="text-primary">幽玄</span>
+        </nav>
+
+        <div className="relative z-30 mx-auto mt-8 max-w-sm px-6 text-center sm:absolute sm:left-6 sm:top-28 sm:mx-0 sm:mt-0 sm:max-w-[210px] sm:px-0 sm:text-left">
+          <p className="eyebrow">序 · Prologue</p>
+          <p className="mt-3 font-display text-lg leading-tight text-foreground/80 md:text-xl">Between the measurable and the mysterious, I keep looking.</p>
+        </div>
+
         {/* giant name */}
         <div className="relative z-10 px-4 pt-0">
           <h1
