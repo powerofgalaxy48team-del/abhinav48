@@ -89,7 +89,7 @@ function Cursor() {
         left: p.x,
         top: p.y,
         background:
-          "radial-gradient(circle, color-mix(in oklab, var(--accent) 14%, transparent), transparent 65%)",
+          "radial-gradient(circle, color-mix(in oklab, var(--primary) 11%, transparent), transparent 65%)",
       }}
     />
   );
@@ -111,7 +111,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
+    <section id={id} className="section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32">
       {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
       <Reveal>
         <div className="flex items-center gap-4">
@@ -367,7 +367,7 @@ function Index() {
       </Section>
 
       {/* LIBRARY */}
-      <section id="library" className="relative overflow-hidden py-24 md:py-32">
+      <section id="library" className="section-atmosphere relative overflow-hidden py-24 md:py-32">
         <span className="vertical-mark" aria-hidden="true">書架</span>
         <div className="starfield absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-5xl px-6">
