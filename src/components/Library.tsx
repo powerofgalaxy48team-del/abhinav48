@@ -64,7 +64,7 @@ function Shelf({ books }: { books: Book[] }) {
         className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklab, var(--primary) 26%, transparent), transparent 70%)",
         }}
       />
 
@@ -77,7 +77,7 @@ function Shelf({ books }: { books: Book[] }) {
           transform: "translateX(-50%)",
           opacity: mouseX === null ? 0 : 0.55,
           background:
-            "radial-gradient(circle, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
+            "radial-gradient(circle, color-mix(in oklab, var(--champagne) 28%, transparent), transparent 70%)",
           filter: "blur(16px)",
         }}
       />
