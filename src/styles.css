@@ -535,3 +535,186 @@
     animation: none;
   }
 }
+
+/* ---------- Parallax gold particles ---------- */
+.gold-particles__dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, var(--champagne), color-mix(in oklab, var(--primary) 60%, transparent) 55%, transparent 72%);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--primary) 55%, transparent);
+  transform: translate3d(0, calc(var(--scroll, 0) * var(--depth, 0.5) * -0.14px), 0);
+  animation: particle-twinkle 6.5s ease-in-out infinite;
+}
+
+@keyframes particle-twinkle {
+  0%, 100% { filter: brightness(0.7); }
+  50% { filter: brightness(1.5); }
+}
+
+/* ---------- Helmet gold glow ---------- */
+.helmet-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: min(70vw, 780px);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--primary) 34%, transparent) 0%,
+    color-mix(in oklab, var(--ember) 20%, transparent) 34%,
+    transparent 68%
+  );
+  filter: blur(12px);
+  animation: helmet-pulse 9s ease-in-out infinite;
+}
+
+@keyframes helmet-pulse {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ---------- Gold shimmer sweep on links & buttons ---------- */
+@utility shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      110deg,
+      transparent 35%,
+      color-mix(in oklab, var(--champagne) 45%, transparent) 50%,
+      transparent 65%
+    );
+    background-size: 260% 100%;
+    background-position: 140% 0;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    animation: shimmer-sweep 900ms ease-out;
+  }
+}
+
+@keyframes shimmer-sweep {
+  from { background-position: 140% 0; }
+  to { background-position: -40% 0; }
+}
+
+/* ---------- Achievement medal ---------- */
+.medal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 9999px;
+  color: var(--ink);
+  text-align: center;
+  background:
+    conic-gradient(
+      from 210deg,
+      var(--ember),
+      var(--champagne) 25%,
+      var(--primary) 50%,
+      var(--champagne) 72%,
+      var(--ember)
+    );
+  box-shadow:
+    0 0 0 6px color-mix(in oklab, var(--primary) 16%, transparent),
+    0 18px 40px -18px color-mix(in oklab, var(--primary) 80%, transparent);
+  animation: medal-spin 14s linear infinite;
+}
+
+.medal > * {
+  animation: medal-spin 14s linear infinite reverse;
+}
+
+@keyframes medal-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Orbit diagram ---------- */
+.orbit__ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--primary) 26%, transparent);
+}
+
+.orbit__ring--inner { width: 60%; height: 60%; }
+.orbit__ring--outer { width: 92%; height: 92%; }
+
+.orbit__core {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 26%;
+  height: 26%;
+  border-radius: 9999px;
+  background: radial-gradient(circle, color-mix(in oklab, var(--primary) 40%, transparent), transparent 70%);
+  filter: blur(6px);
+}
+
+.orbit__core-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.orbit__spinner {
+  position: absolute;
+  inset: 0;
+  animation: medal-spin 46s linear infinite;
+}
+
+.orbit__slot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.orbit__chip {
+  display: inline-block;
+  max-width: 190px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--champagne) 30%, transparent);
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  padding: 0.6rem 1.1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: var(--color-muted-foreground);
+  backdrop-filter: blur(4px);
+  animation: medal-spin 46s linear infinite reverse;
+  transition: color 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.orbit__chip:hover {
+  color: var(--color-foreground);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 26px -8px color-mix(in oklab, var(--primary) 80%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit__spinner,
+  .orbit__chip,
+  .medal,
+  .medal > *,
+  .helmet-glow,
+  .gold-particles__dot {
+    animation: none !important;
+  }
+}

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
+import { GoldParticles } from "@/components/GoldParticles";
+import { OrbitDiagram } from "@/components/OrbitDiagram";
 
 import helmet from "@/assets/helmet.png";
 import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
@@ -146,6 +148,8 @@ function Index() {
         </div>
         <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
+        <GoldParticles count={84} />
+        <div className="helmet-glow z-[15]" aria-hidden="true" />
 
         <div className="relative z-30 mx-auto mt-4 max-w-sm px-6 text-center sm:absolute sm:left-6 sm:top-6 sm:mx-0 sm:mt-0 sm:max-w-[210px] sm:px-0 sm:text-left">
           <p className="eyebrow">序 · Prologue</p>
@@ -230,7 +234,7 @@ function Index() {
             </p>
             <a
               href="#work"
-              className="group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
+              className="shimmer group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
               style={{ boxShadow: "var(--shadow-glow)" }}
             >
               <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
@@ -291,7 +295,7 @@ function Index() {
             },
           ].map((p, i) => (
             <Reveal key={p.t} delay={i * 90}>
-              <a href={p.href} target="_blank" rel="noreferrer" className="block h-full">
+              <a href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
                 <TiltCard className="flex h-full flex-col justify-between p-7">
                   <div>
                     <p className="eyebrow">{p.tag}</p>
@@ -309,11 +313,20 @@ function Index() {
           <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
               <div>
-                <p className="eyebrow">Achievement</p>
+                <div className="medal" aria-hidden="true">
+                  <span className="font-mono text-[10px] font-bold uppercase leading-tight tracking-[0.12em]">
+                    1st
+                    <br />
+                    ILLUM
+                    <br />
+                    24
+                  </span>
+                </div>
+                <p className="eyebrow mt-6">Achievement</p>
                 <h3 className="mt-4 text-3xl leading-tight md:text-4xl">
                   ILLUMINATE-24 National Finalist
                 </h3>
-                <p className="mt-4 font-mono text-xs text-primary">
+                <p className="mt-4 font-mono text-xs tracking-[0.12em] text-primary">
                   Top position in the 10–25 finalist category, all-India
                 </p>
               </div>
@@ -332,7 +345,7 @@ function Index() {
                   href="https://leap21stcentury.org/contest"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block border-b border-primary pb-0.5 text-primary"
+                  className="shimmer inline-block border-b border-primary pb-0.5 text-primary"
                 >
                   About the contest ↗
                 </a>
@@ -389,7 +402,7 @@ function Index() {
               href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
               target="_blank"
               rel="noreferrer"
-              className="mt-14 block text-center font-mono text-xs text-primary"
+              className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
             >
               Start with Ahlam by Thaslim Kabeer ↗
             </a>
@@ -399,15 +412,9 @@ function Index() {
 
       {/* TOPICS */}
       <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
-        <div className="flex flex-wrap gap-3">
-          {topics.map((t, i) => (
-            <Reveal key={t} delay={i * 50}>
-              <span className="inline-block rounded-full border border-border px-5 py-3 text-sm text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:text-foreground">
-                {t}
-              </span>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <OrbitDiagram items={topics} />
+        </Reveal>
       </Section>
 
       {/* FOOTER */}
