@@ -234,7 +234,7 @@ function Index() {
             </p>
             <a
               href="#work"
-              className="group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
+              className="shimmer group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
               style={{ boxShadow: "var(--shadow-glow)" }}
             >
               <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
@@ -295,7 +295,7 @@ function Index() {
             },
           ].map((p, i) => (
             <Reveal key={p.t} delay={i * 90}>
-              <a href={p.href} target="_blank" rel="noreferrer" className="block h-full">
+              <a href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
                 <TiltCard className="flex h-full flex-col justify-between p-7">
                   <div>
                     <p className="eyebrow">{p.tag}</p>
@@ -345,7 +345,7 @@ function Index() {
                   href="https://leap21stcentury.org/contest"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block border-b border-primary pb-0.5 text-primary"
+                  className="shimmer inline-block border-b border-primary pb-0.5 text-primary"
                 >
                   About the contest ↗
                 </a>
@@ -402,7 +402,7 @@ function Index() {
               href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
               target="_blank"
               rel="noreferrer"
-              className="mt-14 block text-center font-mono text-xs text-primary"
+              className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
             >
               Start with Ahlam by Thaslim Kabeer ↗
             </a>
