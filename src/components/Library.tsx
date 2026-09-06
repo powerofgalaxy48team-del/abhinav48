@@ -126,6 +126,20 @@ function Shelf({ books }: { books: Book[] }) {
           }}
         />
       </div>
+      {/* gold spotlight pooling under the hovered book */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute h-24 w-64 transition-opacity duration-300"
+        style={{
+          left: activeCenter ?? -300,
+          bottom: 0,
+          transform: "translateX(-50%)",
+          opacity: activeCenter !== null ? 0.75 : 0,
+          background:
+            "radial-gradient(ellipse 50% 60% at 50% 0%, color-mix(in oklab, var(--primary) 45%, transparent), transparent 72%)",
+          filter: "blur(10px)",
+        }}
+      />
       <div className="mx-6 h-6 rounded-b-xl bg-gradient-to-b from-[oklch(0.16_0.02_60)] to-transparent" />
     </div>
   );
