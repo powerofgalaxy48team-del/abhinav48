@@ -313,11 +313,20 @@ function Index() {
           <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
               <div>
-                <p className="eyebrow">Achievement</p>
+                <div className="medal" aria-hidden="true">
+                  <span className="font-mono text-[10px] font-bold uppercase leading-tight tracking-[0.12em]">
+                    1st
+                    <br />
+                    ILLUM
+                    <br />
+                    24
+                  </span>
+                </div>
+                <p className="eyebrow mt-6">Achievement</p>
                 <h3 className="mt-4 text-3xl leading-tight md:text-4xl">
                   ILLUMINATE-24 National Finalist
                 </h3>
-                <p className="mt-4 font-mono text-xs text-primary">
+                <p className="mt-4 font-mono text-xs tracking-[0.12em] text-primary">
                   Top position in the 10–25 finalist category, all-India
                 </p>
               </div>
@@ -403,15 +412,9 @@ function Index() {
 
       {/* TOPICS */}
       <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
-        <div className="flex flex-wrap gap-3">
-          {topics.map((t, i) => (
-            <Reveal key={t} delay={i * 50}>
-              <span className="inline-block rounded-full border border-border px-5 py-3 text-sm text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:text-foreground">
-                {t}
-              </span>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <OrbitDiagram items={topics} />
+        </Reveal>
       </Section>
 
       {/* FOOTER */}
