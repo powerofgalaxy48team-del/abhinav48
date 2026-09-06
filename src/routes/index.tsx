@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
+import { GoldParticles } from "@/components/GoldParticles";
+import { OrbitDiagram } from "@/components/OrbitDiagram";
 
 import helmet from "@/assets/helmet.png";
 import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
@@ -146,6 +148,8 @@ function Index() {
         </div>
         <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
+        <GoldParticles count={84} />
+        <div className="helmet-glow z-[15]" aria-hidden="true" />
 
         <div className="relative z-30 mx-auto mt-4 max-w-sm px-6 text-center sm:absolute sm:left-6 sm:top-6 sm:mx-0 sm:mt-0 sm:max-w-[210px] sm:px-0 sm:text-left">
           <p className="eyebrow">序 · Prologue</p>
