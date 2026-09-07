@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Reveal } from "@/components/Reveal";
+import { useEffect, useRef, useState } from "react";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
 import { GoldParticles } from "@/components/GoldParticles";
@@ -115,14 +114,12 @@ function Section({
   return (
     <section id={id} className="section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32">
       {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
-      <Reveal>
-        <div className="flex items-center gap-4">
-          {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
-          <p className="eyebrow">{label}</p>
-          <span className="gold-rule" aria-hidden="true" />
-        </div>
-        <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
-      </Reveal>
+      <div className="flex items-center gap-4">
+        {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
+        <p className="eyebrow">{label}</p>
+        <span className="gold-rule" aria-hidden="true" />
+      </div>
+      <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
       <div className="mt-12">{children}</div>
     </section>
   );
@@ -130,11 +127,26 @@ function Section({
 }
 
 function Index() {
-  const [scrollY, setScrollY] = useState(0);
+  // Hero parallax — write transforms straight to the DOM via rAF so scrolling
+  // never triggers a React re-render.
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const helmetRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const h = () => setScrollY(window.scrollY);
+    let frame: number | null = null;
+    const apply = () => {
+      frame = null;
+      const y = window.scrollY;
+      if (nameRef.current) nameRef.current.style.transform = `translateY(${y * -0.06}px)`;
+      if (helmetRef.current) helmetRef.current.style.transform = `translateY(${y * 0.12}px)`;
+    };
+    const h = () => {
+      if (frame === null) frame = requestAnimationFrame(apply);
+    };
     window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
+    return () => {
+      window.removeEventListener("scroll", h);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
@@ -158,10 +170,7 @@ function Index() {
 
         {/* giant name */}
         <div className="relative z-10 px-4 pt-0">
-          <h1
-            aria-label="Abhinav Byju — Researcher & Web Designer"
-            style={{ transform: `translateY(${scrollY * -0.06}px)` }}
-          >
+          <h1 ref={nameRef} aria-label="Abhinav Byju — Researcher & Web Designer">
             <svg
               viewBox="0 0 1000 185"
               preserveAspectRatio="none"
@@ -191,8 +200,8 @@ function Index() {
 
         {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
+          ref={helmetRef}
           className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
         >
           <img
             src={helmet}
