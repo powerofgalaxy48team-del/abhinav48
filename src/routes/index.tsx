@@ -314,8 +314,7 @@ function Index() {
           ))}
         </div>
 
-        <Reveal delay={120}>
-          <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
+        <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
               <div>
                 <div className="medal" aria-hidden="true">
