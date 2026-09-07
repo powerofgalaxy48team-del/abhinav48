@@ -22,10 +22,17 @@ export function Reveal({
           io.disconnect();
         }
       },
-      { threshold: 0.15 },
+      // Trigger as soon as any part enters (with a small bottom offset) —
+      // a fixed fraction threshold never fires for elements taller than the viewport.
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
-    return () => io.disconnect();
+    // Failsafe: never leave content hidden if the observer misbehaves.
+    const t = window.setTimeout(() => setShown(true), 2500);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(t);
+    };
   }, []);
 
   return (
