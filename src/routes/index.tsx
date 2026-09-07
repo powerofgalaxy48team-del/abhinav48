@@ -300,19 +300,17 @@ function Index() {
               href: "https://www.youtube.com/watch?v=qmoXq_uKwno",
               tag: "Hardware prototype",
             },
-          ].map((p, i) => (
-            <Reveal key={p.t} delay={i * 90}>
-              <a href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
-                <TiltCard className="flex h-full flex-col justify-between p-7">
-                  <div>
-                    <p className="eyebrow">{p.tag}</p>
-                    <h3 className="mt-4 text-2xl">{p.t}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
-                  </div>
-                  <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
-                </TiltCard>
-              </a>
-            </Reveal>
+          ].map((p) => (
+            <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+              <TiltCard className="flex h-full flex-col justify-between p-7">
+                <div>
+                  <p className="eyebrow">{p.tag}</p>
+                  <h3 className="mt-4 text-2xl">{p.t}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
+                </div>
+                <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
+              </TiltCard>
+            </a>
           ))}
         </div>
 
