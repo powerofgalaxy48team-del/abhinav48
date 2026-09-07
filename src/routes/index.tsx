@@ -267,15 +267,13 @@ function Index() {
       >
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {research.map((r, i) => (
-            <Reveal key={r.t} delay={i * 70}>
-              <TiltCard className="h-full p-6">
-                <p className="font-mono text-xs text-primary">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 text-2xl">{r.t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
-              </TiltCard>
-            </Reveal>
+            <TiltCard key={r.t} className="h-full p-6">
+              <p className="font-mono text-xs text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="mt-4 text-2xl">{r.t}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
+            </TiltCard>
           ))}
         </div>
       </Section>
