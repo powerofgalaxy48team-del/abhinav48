@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Reveal } from "@/components/Reveal";
+import { useEffect, useRef, useState } from "react";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
 import { GoldParticles } from "@/components/GoldParticles";
@@ -115,14 +114,12 @@ function Section({
   return (
     <section id={id} className="section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32">
       {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
-      <Reveal>
-        <div className="flex items-center gap-4">
-          {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
-          <p className="eyebrow">{label}</p>
-          <span className="gold-rule" aria-hidden="true" />
-        </div>
-        <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
-      </Reveal>
+      <div className="flex items-center gap-4">
+        {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
+        <p className="eyebrow">{label}</p>
+        <span className="gold-rule" aria-hidden="true" />
+      </div>
+      <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
       <div className="mt-12">{children}</div>
     </section>
   );
@@ -130,11 +127,26 @@ function Section({
 }
 
 function Index() {
-  const [scrollY, setScrollY] = useState(0);
+  // Hero parallax — write transforms straight to the DOM via rAF so scrolling
+  // never triggers a React re-render.
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const helmetRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const h = () => setScrollY(window.scrollY);
+    let frame: number | null = null;
+    const apply = () => {
+      frame = null;
+      const y = window.scrollY;
+      if (nameRef.current) nameRef.current.style.transform = `translateY(${y * -0.06}px)`;
+      if (helmetRef.current) helmetRef.current.style.transform = `translateY(${y * 0.12}px)`;
+    };
+    const h = () => {
+      if (frame === null) frame = requestAnimationFrame(apply);
+    };
     window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
+    return () => {
+      window.removeEventListener("scroll", h);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
@@ -158,10 +170,7 @@ function Index() {
 
         {/* giant name */}
         <div className="relative z-10 px-4 pt-0">
-          <h1
-            aria-label="Abhinav Byju — Researcher & Web Designer"
-            style={{ transform: `translateY(${scrollY * -0.06}px)` }}
-          >
+          <h1 ref={nameRef} aria-label="Abhinav Byju — Researcher & Web Designer">
             <svg
               viewBox="0 0 1000 185"
               preserveAspectRatio="none"
@@ -191,8 +200,8 @@ function Index() {
 
         {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
+          ref={helmetRef}
           className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
         >
           <img
             src={helmet}
@@ -258,15 +267,13 @@ function Index() {
       >
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {research.map((r, i) => (
-            <Reveal key={r.t} delay={i * 70}>
-              <TiltCard className="h-full p-6">
-                <p className="font-mono text-xs text-primary">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 text-2xl">{r.t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
-              </TiltCard>
-            </Reveal>
+            <TiltCard key={r.t} className="h-full p-6">
+              <p className="font-mono text-xs text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="mt-4 text-2xl">{r.t}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
+            </TiltCard>
           ))}
         </div>
       </Section>
@@ -293,24 +300,21 @@ function Index() {
               href: "https://www.youtube.com/watch?v=qmoXq_uKwno",
               tag: "Hardware prototype",
             },
-          ].map((p, i) => (
-            <Reveal key={p.t} delay={i * 90}>
-              <a href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
-                <TiltCard className="flex h-full flex-col justify-between p-7">
-                  <div>
-                    <p className="eyebrow">{p.tag}</p>
-                    <h3 className="mt-4 text-2xl">{p.t}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
-                  </div>
-                  <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
-                </TiltCard>
-              </a>
-            </Reveal>
+          ].map((p) => (
+            <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+              <TiltCard className="flex h-full flex-col justify-between p-7">
+                <div>
+                  <p className="eyebrow">{p.tag}</p>
+                  <h3 className="mt-4 text-2xl">{p.t}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
+                </div>
+                <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
+              </TiltCard>
+            </a>
           ))}
         </div>
 
-        <Reveal delay={120}>
-          <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
+        <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
               <div>
                 <div className="medal" aria-hidden="true">
@@ -351,30 +355,27 @@ function Index() {
                 </a>
               </div>
             </div>
-          </TiltCard>
-        </Reveal>
+        </TiltCard>
       </Section>
 
       {/* QUOTES */}
       <Section id="quotes" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
         <div className="grid gap-8 md:grid-cols-3">
-          {quotes.map((q, i) => (
-            <Reveal key={q.by} delay={i * 100}>
-              <TiltCard className="h-full" intensity={8}>
-                <div className={`overflow-hidden ${q.ratio}`}>
-                  <img
-                    src={q.img}
-                    alt={`Illustration for the quote by ${q.by}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
-                  <p className="mt-3 eyebrow">{q.by}</p>
-                </div>
-              </TiltCard>
-            </Reveal>
+          {quotes.map((q) => (
+            <TiltCard key={q.by} className="h-full" intensity={8}>
+              <div className={`overflow-hidden ${q.ratio}`}>
+                <img
+                  src={q.img}
+                  alt={`Illustration for the quote by ${q.by}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-6">
+                <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
+                <p className="mt-3 eyebrow">{q.by}</p>
+              </div>
+            </TiltCard>
           ))}
         </div>
       </Section>
@@ -384,37 +385,31 @@ function Index() {
         <span className="vertical-mark" aria-hidden="true">書架</span>
         <div className="starfield absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-5xl px-6">
-          <Reveal>
-            <div className="flex items-center gap-4">
-              <span className="font-mono text-xs text-primary">04</span>
-              <p className="eyebrow">The library</p>
-              <span className="gold-rule" aria-hidden="true" />
-            </div>
-            <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
-              Books I've read, and books that are waiting.
-            </h2>
-          </Reveal>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-primary">04</span>
+            <p className="eyebrow">The library</p>
+            <span className="gold-rule" aria-hidden="true" />
+          </div>
+          <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
+            Books I've read, and books that are waiting.
+          </h2>
           <div className="mt-16">
             <Library />
           </div>
-          <Reveal>
-            <a
-              href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
-              target="_blank"
-              rel="noreferrer"
-              className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
-            >
-              Start with Ahlam by Thaslim Kabeer ↗
-            </a>
-          </Reveal>
+          <a
+            href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
+            target="_blank"
+            rel="noreferrer"
+            className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
+          >
+            Start with Ahlam by Thaslim Kabeer ↗
+          </a>
         </div>
       </section>
 
       {/* TOPICS */}
       <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
-        <Reveal>
-          <OrbitDiagram items={topics} />
-        </Reveal>
+        <OrbitDiagram items={topics} />
       </Section>
 
       {/* FOOTER */}

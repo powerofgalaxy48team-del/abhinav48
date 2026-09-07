@@ -191,7 +191,7 @@
   contain: layout paint style;
   transform: perspective(900px) rotateX(0) rotateY(0);
   transition: box-shadow 300ms ease;
-  touch-action: pan-y;
+  touch-action: auto;
 }
 
 .section-atmosphere {
