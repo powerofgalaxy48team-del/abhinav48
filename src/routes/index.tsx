@@ -355,30 +355,27 @@ function Index() {
                 </a>
               </div>
             </div>
-          </TiltCard>
-        </Reveal>
+        </TiltCard>
       </Section>
 
       {/* QUOTES */}
       <Section id="quotes" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
         <div className="grid gap-8 md:grid-cols-3">
-          {quotes.map((q, i) => (
-            <Reveal key={q.by} delay={i * 100}>
-              <TiltCard className="h-full" intensity={8}>
-                <div className={`overflow-hidden ${q.ratio}`}>
-                  <img
-                    src={q.img}
-                    alt={`Illustration for the quote by ${q.by}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
-                  <p className="mt-3 eyebrow">{q.by}</p>
-                </div>
-              </TiltCard>
-            </Reveal>
+          {quotes.map((q) => (
+            <TiltCard key={q.by} className="h-full" intensity={8}>
+              <div className={`overflow-hidden ${q.ratio}`}>
+                <img
+                  src={q.img}
+                  alt={`Illustration for the quote by ${q.by}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-6">
+                <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
+                <p className="mt-3 eyebrow">{q.by}</p>
+              </div>
+            </TiltCard>
           ))}
         </div>
       </Section>
@@ -388,37 +385,31 @@ function Index() {
         <span className="vertical-mark" aria-hidden="true">書架</span>
         <div className="starfield absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-5xl px-6">
-          <Reveal>
-            <div className="flex items-center gap-4">
-              <span className="font-mono text-xs text-primary">04</span>
-              <p className="eyebrow">The library</p>
-              <span className="gold-rule" aria-hidden="true" />
-            </div>
-            <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
-              Books I've read, and books that are waiting.
-            </h2>
-          </Reveal>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-primary">04</span>
+            <p className="eyebrow">The library</p>
+            <span className="gold-rule" aria-hidden="true" />
+          </div>
+          <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
+            Books I've read, and books that are waiting.
+          </h2>
           <div className="mt-16">
             <Library />
           </div>
-          <Reveal>
-            <a
-              href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
-              target="_blank"
-              rel="noreferrer"
-              className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
-            >
-              Start with Ahlam by Thaslim Kabeer ↗
-            </a>
-          </Reveal>
+          <a
+            href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
+            target="_blank"
+            rel="noreferrer"
+            className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
+          >
+            Start with Ahlam by Thaslim Kabeer ↗
+          </a>
         </div>
       </section>
 
       {/* TOPICS */}
       <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
-        <Reveal>
-          <OrbitDiagram items={topics} />
-        </Reveal>
+        <OrbitDiagram items={topics} />
       </Section>
 
       {/* FOOTER */}
