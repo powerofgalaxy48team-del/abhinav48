@@ -34,7 +34,7 @@ export function Reveal({
     }, 800);
     return () => {
       io.disconnect();
-      window.clearTimeout(t);
+      window.clearInterval(t);
     };
   }, []);
 
