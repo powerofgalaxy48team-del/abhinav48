@@ -27,8 +27,11 @@ export function Reveal({
       { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
-    // Failsafe: never leave content hidden if the observer misbehaves.
-    const t = window.setTimeout(() => setShown(true), 2500);
+    // Failsafe: if the observer misbehaves while the element is on screen, show it.
+    const t = window.setInterval(() => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) setShown(true);
+    }, 800);
     return () => {
       io.disconnect();
       window.clearTimeout(t);
