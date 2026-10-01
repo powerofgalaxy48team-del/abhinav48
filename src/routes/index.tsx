@@ -1,14 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Reveal } from "@/components/Reveal";
+import { useEffect, useRef, useState } from "react";
 import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
+import { GoldParticles } from "@/components/GoldParticles";
+import { OrbitDiagram } from "@/components/OrbitDiagram";
 
 import helmet from "@/assets/helmet.png";
-
-import nietzsche from "@/assets/nietzsche.png.asset.json";
-import aurelius from "@/assets/aurelius.webp.asset.json";
-import rumi from "@/assets/rumi.webp.asset.json";
+import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,22 +41,19 @@ const research = [
 
 const quotes = [
   {
-    img: nietzsche.url,
+    vertical: "NIETZSCHE",
     text: "He who fights with the monster should look to it that he himself does not become a monster. And if you gaze long into an abyss, the abyss also gazes into you.",
     by: "Friedrich Nietzsche",
-    ratio: "aspect-[16/9]",
   },
   {
-    img: aurelius.url,
+    vertical: "AURELIUS",
     text: "Everything we hear is an opinion, not a fact.",
     by: "Marcus Aurelius",
-    ratio: "aspect-[3/4]",
   },
   {
-    img: rumi.url,
+    vertical: "RUMI",
     text: "I searched for God and found myself, I searched for myself and found only God.",
     by: "Rumi — my deepest favourite",
-    ratio: "aspect-[3/4]",
   },
 ];
 
@@ -88,7 +83,7 @@ function Cursor() {
         left: p.x,
         top: p.y,
         background:
-          "radial-gradient(circle, color-mix(in oklab, var(--accent) 14%, transparent), transparent 65%)",
+          "radial-gradient(circle, color-mix(in oklab, var(--primary) 11%, transparent), transparent 65%)",
       }}
     />
   );
@@ -97,53 +92,83 @@ function Cursor() {
 function Section({
   id,
   label,
+  jp,
+  index,
   title,
   children,
 }: {
   id: string;
   label: string;
+  jp?: string;
+  index?: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-      <Reveal>
+    <section id={id} className="section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32">
+      {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
+      <div className="flex items-center gap-4">
+        {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
         <p className="eyebrow">{label}</p>
-        <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
-      </Reveal>
+        <span className="gold-rule" aria-hidden="true" />
+      </div>
+      <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
       <div className="mt-12">{children}</div>
     </section>
   );
+
 }
 
 function Index() {
-  const [scrollY, setScrollY] = useState(0);
+  // Hero parallax — write transforms straight to the DOM via rAF so scrolling
+  // never triggers a React re-render.
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const helmetRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const h = () => setScrollY(window.scrollY);
+    let frame: number | null = null;
+    const apply = () => {
+      frame = null;
+      const y = window.scrollY;
+      if (nameRef.current) nameRef.current.style.transform = `translateY(${y * -0.06}px)`;
+      if (helmetRef.current) helmetRef.current.style.transform = `translateY(${y * 0.12}px)`;
+    };
+    const h = () => {
+      if (frame === null) frame = requestAnimationFrame(apply);
+    };
     window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
+    return () => {
+      window.removeEventListener("scroll", h);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
-    <main className="grain relative min-h-screen overflow-x-hidden bg-background">
+    <main className="grain relative min-h-screen overflow-x-clip bg-background">
       <Cursor />
 
       {/* HERO — cosmos.studio style */}
       <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
-        <div className="starfield twinkle absolute inset-0 opacity-70" />
+        <div className="nebula-veil absolute inset-0" aria-hidden="true">
+          <img src={goldenNebula.url} alt="" aria-hidden="true" className="nebula-veil__img" />
+        </div>
+        <div className="cosmos-stars absolute inset-0" aria-hidden="true" />
         <div className="aurora absolute inset-0" />
+        <GoldParticles count={84} />
+        <div className="helmet-glow z-[15]" aria-hidden="true" />
+
+        <div className="relative z-30 mx-auto mt-4 max-w-sm px-6 text-center sm:absolute sm:left-6 sm:top-6 sm:mx-0 sm:mt-0 sm:max-w-[210px] sm:px-0 sm:text-left">
+          <p className="eyebrow">序 · Prologue</p>
+          <p className="mt-3 font-display text-lg leading-tight text-foreground/80 md:text-xl">Between the measurable and the mysterious, I keep looking.</p>
+        </div>
 
         {/* giant name */}
-        <div className="relative z-10 px-4 pt-8 md:pt-12">
-          <h1
-            aria-label="Abhinav Byju — Researcher & Web Designer"
-            style={{ transform: `translateY(${scrollY * -0.06}px)` }}
-          >
+        <div className="relative z-10 px-4 pt-0">
+          <h1 ref={nameRef} aria-label="Abhinav Byju — Researcher & Web Designer">
             <svg
               viewBox="0 0 1000 185"
               preserveAspectRatio="none"
               aria-hidden="true"
-              className="block h-[22vh] w-full md:h-[34vh]"
+              className="block h-[26vh] w-full md:h-[38vh]"
             >
               <text
                 x="0"
@@ -168,8 +193,8 @@ function Index() {
 
         {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
+          ref={helmetRef}
           className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
         >
           <img
             src={helmet}
@@ -199,18 +224,19 @@ function Index() {
           </div>
 
           <div className="hidden flex-col items-end gap-6 text-right md:flex">
-            <p className="leading-relaxed">
-              Creating
+            <p className="text-shine text-lg leading-relaxed md:text-xl">
+              目に見える世界の
               <br />
-              memorable
+              すぐその下に隠された
               <br />
-              digital
+              深く、究極の真理を
               <br />
-              experiences
+              見出すこと
+              <br />
             </p>
             <a
               href="#work"
-              className="group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
+              className="shimmer group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
               style={{ boxShadow: "var(--shadow-glow)" }}
             >
               <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
@@ -228,25 +254,25 @@ function Index() {
       <Section
         id="research"
         label="Fields of inquiry"
+        jp="探究"
+        index="01"
         title="Six directions I keep walking down, mostly at night."
       >
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {research.map((r, i) => (
-            <Reveal key={r.t} delay={i * 70}>
-              <TiltCard className="h-full p-6">
-                <p className="font-mono text-xs text-primary">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 text-2xl">{r.t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
-              </TiltCard>
-            </Reveal>
+            <TiltCard key={r.t} className="h-full p-6">
+              <p className="font-mono text-xs text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="mt-4 text-2xl">{r.t}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.d}</p>
+            </TiltCard>
           ))}
         </div>
       </Section>
 
       {/* WORK */}
-      <Section id="work" label="Built things" title="Websites and one prototype for the planet.">
+      <Section id="work" label="Built things" jp="制作" index="02" title="Websites and one prototype for the planet.">
         <div className="grid gap-6 md:grid-cols-3">
           {[
             {
@@ -267,31 +293,37 @@ function Index() {
               href: "https://www.youtube.com/watch?v=qmoXq_uKwno",
               tag: "Hardware prototype",
             },
-          ].map((p, i) => (
-            <Reveal key={p.t} delay={i * 90}>
-              <a href={p.href} target="_blank" rel="noreferrer" className="block h-full">
-                <TiltCard className="flex h-full flex-col justify-between p-7">
-                  <div>
-                    <p className="eyebrow">{p.tag}</p>
-                    <h3 className="mt-4 text-2xl">{p.t}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
-                  </div>
-                  <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
-                </TiltCard>
-              </a>
-            </Reveal>
+          ].map((p) => (
+            <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+              <TiltCard className="flex h-full flex-col justify-between p-7">
+                <div>
+                  <p className="eyebrow">{p.tag}</p>
+                  <h3 className="mt-4 text-2xl">{p.t}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
+                </div>
+                <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
+              </TiltCard>
+            </a>
           ))}
         </div>
 
-        <Reveal delay={120}>
-          <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
+        <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
               <div>
-                <p className="eyebrow">Achievement</p>
+                <div className="medal" aria-hidden="true">
+                  <span className="font-mono text-[10px] font-bold uppercase leading-tight tracking-[0.12em]">
+                    1st
+                    <br />
+                    ILLUM
+                    <br />
+                    24
+                  </span>
+                </div>
+                <p className="eyebrow mt-6">Achievement</p>
                 <h3 className="mt-4 text-3xl leading-tight md:text-4xl">
                   ILLUMINATE-24 National Finalist
                 </h3>
-                <p className="mt-4 font-mono text-xs text-primary">
+                <p className="mt-4 font-mono text-xs tracking-[0.12em] text-primary">
                   Top position in the 10–25 finalist category, all-India
                 </p>
               </div>
@@ -310,87 +342,82 @@ function Index() {
                   href="https://leap21stcentury.org/contest"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block border-b border-primary pb-0.5 text-primary"
+                  className="shimmer inline-block border-b border-primary pb-0.5 text-primary"
                 >
                   About the contest ↗
                 </a>
               </div>
             </div>
-          </TiltCard>
-        </Reveal>
+        </TiltCard>
       </Section>
 
       {/* QUOTES */}
-      <Section id="quotes" label="Three lines I live near" title="Words that keep rearranging me.">
+      <Section id="quotes" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
         <div className="grid gap-8 md:grid-cols-3">
-          {quotes.map((q, i) => (
-            <Reveal key={q.by} delay={i * 100}>
-              <TiltCard className="h-full" intensity={8}>
-                <div className={`overflow-hidden ${q.ratio}`}>
-                  <img
-                    src={q.img}
-                    alt={`Illustration for the quote by ${q.by}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+          {quotes.map((q) => (
+            <TiltCard key={q.by} className="h-full" intensity={8}>
+              <div className="flex h-full flex-col p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="quote-mark" aria-hidden="true">“</span>
+                  <span className="quote-vertical" aria-hidden="true">{q.vertical}</span>
                 </div>
-                <div className="p-6">
-                  <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
-                  <p className="mt-3 eyebrow">{q.by}</p>
+                <p className="mt-6 font-display text-lg italic leading-snug">"{q.text}"</p>
+                <div className="mt-auto pt-8">
+                  <div className="flex items-center gap-4">
+                    <span className="quote-diamond" aria-hidden="true">◆</span>
+                    <span className="gold-rule" aria-hidden="true" />
+                  </div>
+                  <p className="mt-4 eyebrow">{q.by}</p>
                 </div>
-              </TiltCard>
-            </Reveal>
+              </div>
+            </TiltCard>
           ))}
         </div>
       </Section>
 
       {/* LIBRARY */}
-      <section id="library" className="relative overflow-hidden py-24 md:py-32">
+      <section id="library" className="section-atmosphere relative overflow-hidden py-24 md:py-32">
+        <span className="vertical-mark" aria-hidden="true">書架</span>
         <div className="starfield absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-5xl px-6">
-          <Reveal>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-primary">04</span>
             <p className="eyebrow">The library</p>
-            <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
-              Books I've read, and books that are waiting.
-            </h2>
-          </Reveal>
+            <span className="gold-rule" aria-hidden="true" />
+          </div>
+          <h2 className="mt-3 max-w-2xl text-3xl leading-tight md:text-5xl">
+            Books I've read, and books that are waiting.
+          </h2>
           <div className="mt-16">
             <Library />
           </div>
-          <Reveal>
-            <a
-              href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-14 block text-center font-mono text-xs text-primary"
-            >
-              Start with Ahlam by Thaslim Kabeer ↗
-            </a>
-          </Reveal>
+          <a
+            href="https://play.google.com/store/books/details/Thaslim_Kabeer_Ahlam?id=2mPHEQAAQBAJ"
+            target="_blank"
+            rel="noreferrer"
+            className="shimmer mt-14 block text-center font-mono text-xs tracking-[0.12em] text-primary"
+          >
+            Start with Ahlam by Thaslim Kabeer ↗
+          </a>
         </div>
       </section>
 
       {/* TOPICS */}
-      <Section id="topics" label="Orbiting interests" title="What the mind circles when it's free.">
-        <div className="flex flex-wrap gap-3">
-          {topics.map((t, i) => (
-            <Reveal key={t} delay={i * 50}>
-              <span className="inline-block rounded-full border border-border px-5 py-3 text-sm text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:text-foreground">
-                {t}
-              </span>
-            </Reveal>
-          ))}
-        </div>
+      <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
+        <OrbitDiagram items={topics} />
       </Section>
 
       {/* FOOTER */}
       <footer className="relative overflow-hidden border-t border-border">
+        <div className="nebula-veil nebula-veil--footer absolute inset-0" aria-hidden="true">
+          <img src={goldenNebula.url} alt="" aria-hidden="true" className="nebula-veil__img" />
+        </div>
         <div className="aurora absolute inset-0 rotate-180 opacity-60" />
         <div className="relative mx-auto max-w-6xl px-6 py-20 text-center">
           <p className="font-display text-3xl italic md:text-5xl">
             "I searched for myself and found only God."
           </p>
-          <p className="mt-6 eyebrow">Abhinav Byju · Kerala, India · MMXXVI</p>
+          <p className="mt-6 eyebrow">幽玄 ·ABHINAV BYJU · KERALA, INDIA · 悟真</p>
         </div>
       </footer>
     </main>
