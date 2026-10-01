@@ -8,10 +8,6 @@ import { OrbitDiagram } from "@/components/OrbitDiagram";
 import helmet from "@/assets/helmet.png";
 import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
 
-import nietzsche from "@/assets/nietzsche.png.asset.json";
-import aurelius from "@/assets/aurelius.webp.asset.json";
-import rumi from "@/assets/rumi.webp.asset.json";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -45,22 +41,19 @@ const research = [
 
 const quotes = [
   {
-    img: nietzsche.url,
+    vertical: "NIETZSCHE",
     text: "He who fights with the monster should look to it that he himself does not become a monster. And if you gaze long into an abyss, the abyss also gazes into you.",
     by: "Friedrich Nietzsche",
-    ratio: "aspect-[16/9]",
   },
   {
-    img: aurelius.url,
+    vertical: "AURELIUS",
     text: "Everything we hear is an opinion, not a fact.",
     by: "Marcus Aurelius",
-    ratio: "aspect-[3/4]",
   },
   {
-    img: rumi.url,
+    vertical: "RUMI",
     text: "I searched for God and found myself, I searched for myself and found only God.",
     by: "Rumi — my deepest favourite",
-    ratio: "aspect-[3/4]",
   },
 ];
 
@@ -363,17 +356,19 @@ function Index() {
         <div className="grid gap-8 md:grid-cols-3">
           {quotes.map((q) => (
             <TiltCard key={q.by} className="h-full" intensity={8}>
-              <div className={`overflow-hidden ${q.ratio}`}>
-                <img
-                  src={q.img}
-                  alt={`Illustration for the quote by ${q.by}`}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <p className="font-display text-lg italic leading-snug">"{q.text}"</p>
-                <p className="mt-3 eyebrow">{q.by}</p>
+              <div className="flex h-full flex-col p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="quote-mark" aria-hidden="true">“</span>
+                  <span className="quote-vertical" aria-hidden="true">{q.vertical}</span>
+                </div>
+                <p className="mt-6 font-display text-lg italic leading-snug">"{q.text}"</p>
+                <div className="mt-auto pt-8">
+                  <div className="flex items-center gap-4">
+                    <span className="quote-diamond" aria-hidden="true">◆</span>
+                    <span className="gold-rule" aria-hidden="true" />
+                  </div>
+                  <p className="mt-4 eyebrow">{q.by}</p>
+                </div>
               </div>
             </TiltCard>
           ))}
