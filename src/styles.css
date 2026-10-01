@@ -310,6 +310,37 @@
   color: var(--color-muted-foreground);
 }
 
+@utility quote-mark {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 0.7;
+  background: linear-gradient(
+    135deg,
+    var(--champagne),
+    color-mix(in oklab, var(--primary) 70%, var(--champagne))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 16px color-mix(in oklab, var(--primary) 40%, transparent));
+  user-select: none;
+}
+
+@utility quote-vertical {
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 60%, transparent);
+}
+
+@utility quote-diamond {
+  font-size: 0.5rem;
+  color: var(--champagne);
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--primary) 55%, transparent));
+}
+
 @keyframes drift {
   0%,
   100% {
