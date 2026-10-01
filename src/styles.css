@@ -92,9 +92,14 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
+    min-height: 100%;
+    margin: 0;
+    overflow-x: clip;
+    overflow-y: visible;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
