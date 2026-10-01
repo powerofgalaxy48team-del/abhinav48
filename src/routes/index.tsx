@@ -150,7 +150,7 @@ function Index() {
   }, []);
 
   return (
-    <main className="grain relative min-h-screen overflow-x-hidden bg-background">
+    <main className="grain relative min-h-screen overflow-x-clip bg-background">
       <Cursor />
 
       {/* HERO — cosmos.studio style */}
