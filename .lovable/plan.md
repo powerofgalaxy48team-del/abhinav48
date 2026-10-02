@@ -2,7 +2,7 @@
 
 Keeps: nebula, helmet, violet accent, kanji section labels, all links, projects and text meaning. Changes only structure, spacing and how much content is shown.
 
-Note: the uploaded brief cuts off at "4. Achievement: keep…". Sections after that follow the same global rules (see below); send the rest of the brief to refine them.
+No animations, loader, custom cursor or new menu in this pass.
 
 ## Global
 - Each main section is at least one screen tall, 120px+ top/bottom padding on desktop, centered content ~1100px wide.
@@ -20,8 +20,16 @@ Note: the uploaded brief cuts off at "4. Achievement: keep…". Sections after t
    - 02 Micro Plastics & Environment
    - 03 Psychology, Systems & Institutions
    Title + one short sentence each.
-4. Achievement — ILLUMINATE-24 kept as one calm focal block (title, project PREL-48, team, school), flat violet badge instead of spinning gold medal.
-5. Quotes, Library, Interests, Contact — kept, simplified to the same spacing and colour rules (quotes one per row with generous space; library shelf kept; interests as a simple list instead of busy orbit).
+4. Achievement — ILLUMINATE-24 kept as one calm focal block (title, project PREL-48, team, school), flat violet badge instead of spinning gold medal. Description shortened to two sentences; "About the contest" link kept.
+5. Words (言葉) — only the Rumi quote, large and centered. The other two hidden behind a small "More quotes" toggle.
+6. Library (書架) — one row of 5 books: Ahlam, Animal Farm, Meditations, Mastery, Psychology of Money. Desktop hover effect kept. "View full library" button reveals the rest. "Start with Ahlam" link kept.
+7. Orbiting interests (興味) — orbit diagram replaced by 4 short items in a small grid: Space exploration & dark matter; Existentialism & Stoicism; Cyberdecks from scrap electronics; Writing stories and poems.
+8. Footer / Contact — closing line "I searched for myself and found only God", name, Kerala, India, email and social links. "Get in touch" scrolls here.
+
+## Mobile
+- Everything stacks in one column with comfortable spacing.
+- Hover-only effects become tap-friendly (library books open on tap) or horizontally scrollable rows.
+- Nothing overlaps or scrolls sideways.
 
 ## Technical details
 - `src/styles.css`: retune tokens (background #0D0D0D, primary = violet, drop gold usage in buttons/rules/text-shine), add fixed `.page-nebula` background layer, remove `.section-atmosphere` overlays, add `.section` spacing utility.
