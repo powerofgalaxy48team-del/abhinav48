@@ -35,8 +35,8 @@ export function JapaneseParallax() {
       frame = null;
       const y = window.scrollY;
       for (const l of layers) {
-        const s = Number(l.dataset.speed);
-        const r = Number(l.dataset.rot || 0);
+        const s = Number(l.dataset["speed"]);
+        const r = Number(l.dataset["rot"] || 0);
         l.style.transform = `translate3d(0, ${-y * s}px, 0)${r ? ` rotate(${r + y * 0.05}deg)` : ""}`;
       }
     };
