@@ -4,6 +4,7 @@ import { TiltCard } from "@/components/TiltCard";
 import { Library } from "@/components/Library";
 import { GoldParticles } from "@/components/GoldParticles";
 import { OrbitDiagram } from "@/components/OrbitDiagram";
+import { JapaneseParallax } from "@/components/JapaneseParallax";
 
 import helmet from "@/assets/helmet.png";
 import goldenNebula from "@/assets/golden-nebula.jpg.asset.json";
@@ -145,6 +146,7 @@ function Index() {
   return (
     <main className="grain relative min-h-screen overflow-x-clip bg-background">
       <Cursor />
+      <JapaneseParallax />
 
       {/* HERO — cosmos.studio style */}
       <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
