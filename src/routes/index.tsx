@@ -186,6 +186,7 @@ function Index() {
           />
         </div>
 
+        <div className="hero-fade" aria-hidden="true" />
         <div className="relative z-30 mx-auto mt-auto flex w-full max-w-[1100px] flex-col gap-8 px-6 pb-14 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="font-display text-3xl md:text-5xl">Researcher &amp; Web Designer</p>
