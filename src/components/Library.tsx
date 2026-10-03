@@ -89,7 +89,6 @@ function Shelf({ books }: { books: Book[] }) {
             book={b}
             mouseX={mouseX}
             containerRef={ref}
-            onTap={(c) => setMouseX((m) => (m !== null && Math.abs(m - c) < 5 ? null : c))}
             onGlow={(hue, center) => {
               setActiveHue(hue);
               setActiveCenter(center);
@@ -150,11 +149,9 @@ function Spine({
   book,
   mouseX,
   containerRef,
-  onTap,
   onGlow,
   onDim,
 }: {
-  onTap: (center: number) => void;
   book: Book;
   mouseX: number | null;
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -190,7 +187,7 @@ function Spine({
   }, [isLit, center, book.hue, mouseX, onGlow, onDim]);
 
   return (
-    <div ref={el} className="relative" onClick={() => onTap(center)} style={{ transformStyle: "preserve-3d" }}>
+    <div ref={el} className="relative" style={{ transformStyle: "preserve-3d" }}>
       <div
         className="relative flex w-[26px] cursor-pointer items-center justify-center rounded-t-[3px] sm:w-[34px]"
         style={{
@@ -246,23 +243,13 @@ function Spine({
   );
 }
 
-const featuredTitles = ["Ahlam", "Animal Farm", "Meditations", "Mastery", "Psychology of Money"];
-const allBooks = [...shelfOne, ...shelfTwo];
-const featured = featuredTitles.map((t) => allBooks.find((b) => b.title === t)!);
-const rest = allBooks.filter((b) => !featuredTitles.includes(b.title));
-
-export function Library({ expanded = false }: { expanded?: boolean }) {
+export function Library() {
   return (
     <div className="space-y-14">
-      <Shelf books={featured} />
-      {expanded ? (
-        <>
-          <Shelf books={rest.slice(0, 4)} />
-          <Shelf books={rest.slice(4)} />
-        </>
-      ) : null}
+      <Shelf books={shelfOne} />
+      <Shelf books={shelfTwo} />
       <p className="text-center text-xs text-muted-foreground">
-        Hover or tap a book to see its title and author.
+        Move your cursor along the shelves — the books lean out to introduce themselves.
       </p>
     </div>
   );
