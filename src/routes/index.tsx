@@ -166,7 +166,7 @@ function Index() {
           <p className="mt-3 font-display text-lg leading-tight text-foreground/80 md:text-xl">Between the measurable and the mysterious, I keep looking.</p>
         </div>
 
-        {/* The desktop name is set behind the astronaut, with a readable signature above it. */}
+        {/* The desktop greeting loops behind the astronaut; the compact name stays on touch layouts. */}
         <div className="hero-title-wrap relative z-10 px-4 pt-0">
           <h1 ref={nameRef} aria-label="Abhinav Byju — Researcher & Web Designer">
             <svg
@@ -193,13 +193,13 @@ function Index() {
               </text>
             </svg>
             <span className="hero-title-desktop" aria-hidden="true">
-              <span>ABHINAV</span>
-              <span>BYJU</span>
+              <span className="hero-title-track">
+                <span className="hero-title-phrase">HELLO, I AM ABHINAV BYJU&nbsp; · &nbsp;</span>
+                <span className="hero-title-phrase">HELLO, I AM ABHINAV BYJU&nbsp; · &nbsp;</span>
+              </span>
             </span>
           </h1>
         </div>
-
-        <p className="hero-signature" aria-hidden="true">ABHINAV BYJU <span>↗</span></p>
 
         {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
