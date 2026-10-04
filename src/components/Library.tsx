@@ -243,38 +243,14 @@ function Spine({
   );
 }
 
-const featuredTitles = ["Ahlam", "Animal Farm", "Meditations", "Mastery", "Psychology of Money"];
-const allBooks = [...shelfOne, ...shelfTwo];
-const featured = featuredTitles.map((t) => allBooks.find((b) => b.title === t)!).filter(Boolean);
-const rest = allBooks.filter((b) => !featuredTitles.includes(b.title));
-
 export function Library() {
-  const [open, setOpen] = useState(false);
   return (
-    <div className="space-y-10">
-      <div className="-mx-6 overflow-x-auto px-6 md:mx-0 md:overflow-visible md:px-0">
-        <div className="min-w-[520px] md:min-w-0">
-          <Shelf books={featured} />
-        </div>
-      </div>
-      {open && (
-        <div className="-mx-6 overflow-x-auto px-6 md:mx-0 md:overflow-visible md:px-0">
-          <div className="min-w-[640px] md:min-w-0">
-            <Shelf books={rest} />
-          </div>
-        </div>
-      )}
-      <div className="text-center">
-        <button
-          type="button"
-          onClick={() => setOpen((o) => !o)}
-          className="rounded-full border border-border px-6 py-3 font-mono text-xs uppercase tracking-[0.14em] text-foreground transition-colors hover:border-primary hover:text-primary"
-          aria-expanded={open}
-        >
-          {open ? "Show fewer books" : "View full library"}
-        </button>
-        <p className="mt-6 text-xs text-muted-foreground md:hidden">Swipe the shelf sideways to see every spine.</p>
-      </div>
+    <div className="space-y-14">
+      <Shelf books={shelfOne} />
+      <Shelf books={shelfTwo} />
+      <p className="text-center text-xs text-muted-foreground">
+        Move your cursor along the shelves — the books lean out to introduce themselves.
+      </p>
     </div>
   );
 }

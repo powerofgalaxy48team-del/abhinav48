@@ -7,5 +7,3 @@
 - [x] Preserve and retheme the astronaut, cards, library, and motion
 - [x] Verify desktop and mobile rendering, runtime, and build health
 - [x] Apply the specified deep-space, antique-gold, champagne, ember, warm-text, and restrained-violet palette across the full page
-- [x] Calmer layout redesign from the uploaded brief (sections reordered, violet-only accent, fewer items)
-- [x] Astronaut scroll effect that uncovers the name
