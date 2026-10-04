@@ -782,3 +782,54 @@
   box-shadow: 0 0 10px color-mix(in oklab, var(--primary) 70%, transparent);
 }
 @media (max-width: 767px) { .cosmic-parallax { display: none; } }
+
+/* Desktop-only typographic depth: the astronaut cuts in front of the two-line name. */
+.hero-title-desktop,
+.hero-signature { display: none; }
+
+@media (min-width: 1024px) and (pointer: fine) {
+  .hero-stage { min-height: 100svh; }
+  .hero-title-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-items: center;
+    padding: 0 max(2.5rem, calc((100vw - 1600px) / 2));
+    pointer-events: none;
+  }
+  .hero-title-wrap h1 { width: 100%; }
+  .hero-title-desktop {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-condensed);
+    font-weight: 700;
+    font-size: clamp(8rem, 22vw, 27rem);
+    line-height: 0.68;
+    color: var(--foreground);
+    text-align: center;
+    text-shadow: 0 0 45px color-mix(in oklab, var(--primary) 20%, transparent);
+  }
+  .hero-title-desktop span:last-child { color: var(--champagne); }
+  .hero-astronaut { z-index: 20; }
+  .hero-astronaut img { max-width: 82vw; }
+  .hero-signature {
+    display: block;
+    position: absolute;
+    z-index: 25;
+    top: clamp(7rem, 14vh, 12rem);
+    left: max(2.5rem, calc((100vw - 1600px) / 2));
+    margin: 0;
+    font-family: var(--font-condensed);
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--champagne);
+    text-shadow: 0 0 30px color-mix(in oklab, var(--primary) 48%, transparent);
+    pointer-events: none;
+  }
+  .hero-signature span { color: var(--primary); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-wrap h1, .hero-astronaut { transform: none !important; }
+}
