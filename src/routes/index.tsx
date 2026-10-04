@@ -121,24 +121,27 @@ function Section({
 }
 
 function Index() {
-  // Hero parallax — write transforms straight to the DOM via rAF so scrolling
-  // never triggers a React re-render.
+  // Desktop hero layers move at different speeds without re-rendering the page.
   const nameRef = useRef<HTMLHeadingElement>(null);
   const helmetRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
     let frame: number | null = null;
     const apply = () => {
       frame = null;
-      const y = window.scrollY;
-      if (nameRef.current) nameRef.current.style.transform = `translateY(${y * -0.06}px)`;
-      if (helmetRef.current) helmetRef.current.style.transform = `translateY(${y * 0.12}px)`;
+      const distance = desktop.matches ? Math.min(window.scrollY, window.innerHeight) : 0;
+      if (nameRef.current) nameRef.current.style.transform = `translate3d(0, ${distance * 0.14}px, 0)`;
+      if (helmetRef.current) helmetRef.current.style.transform = `translate3d(0, ${distance * -0.12}px, 0)`;
     };
     const h = () => {
       if (frame === null) frame = requestAnimationFrame(apply);
     };
+    apply();
     window.addEventListener("scroll", h, { passive: true });
+    desktop.addEventListener("change", h);
     return () => {
       window.removeEventListener("scroll", h);
+      desktop.removeEventListener("change", h);
       if (frame !== null) cancelAnimationFrame(frame);
     };
   }, []);
@@ -148,8 +151,8 @@ function Index() {
       <Cursor />
       <CosmicParallax />
 
-      {/* HERO — cosmos.studio style */}
-      <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
+      {/* HERO */}
+      <header className="hero-stage relative flex min-h-screen flex-col justify-between overflow-hidden">
         <div className="nebula-veil absolute inset-0" aria-hidden="true">
           <img src={goldenNebula.url} alt="" aria-hidden="true" className="nebula-veil__img" />
         </div>
@@ -163,14 +166,14 @@ function Index() {
           <p className="mt-3 font-display text-lg leading-tight text-foreground/80 md:text-xl">Between the measurable and the mysterious, I keep looking.</p>
         </div>
 
-        {/* giant name */}
-        <div className="relative z-10 px-4 pt-0">
+        {/* The desktop name is set behind the astronaut, with a readable signature above it. */}
+        <div className="hero-title-wrap relative z-10 px-4 pt-0">
           <h1 ref={nameRef} aria-label="Abhinav Byju — Researcher & Web Designer">
             <svg
               viewBox="0 0 1000 185"
               preserveAspectRatio="none"
               aria-hidden="true"
-              className="block h-[26vh] w-full md:h-[38vh]"
+              className="block h-[26vh] w-full md:h-[38vh] lg:hidden"
             >
               <text
                 x="0"
@@ -189,21 +192,26 @@ function Index() {
                 ABHINAV BYJU
               </text>
             </svg>
+            <span className="hero-title-desktop" aria-hidden="true">
+              <span>ABHINAV</span>
+              <span>BYJU</span>
+            </span>
           </h1>
         </div>
 
+        <p className="hero-signature" aria-hidden="true">ABHINAV BYJU <span>↗</span></p>
 
         {/* helmet figure — overlaps the name so the smoke touches the type */}
         <div
           ref={helmetRef}
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
+          className="hero-astronaut pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center"
         >
           <img
             src={helmet}
             width={1200}
             height={1408}
             alt="Faceless astronaut helmet with violet smoke — the site's cosmic sigil"
-            className="float-slow h-[78vh] w-auto object-contain md:h-[92vh]"
+            className="float-slow h-[78vh] w-auto object-contain md:h-[92vh] lg:h-[84vh]"
             style={{
               maskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
               WebkitMaskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
