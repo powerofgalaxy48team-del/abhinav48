@@ -809,7 +809,11 @@
     text-align: center;
     text-shadow: 0 0 45px color-mix(in oklab, var(--primary) 20%, transparent);
   }
-  .hero-title-desktop span:last-child { color: var(--champagne); }
+  .hero-title-desktop span:last-child {
+    align-self: flex-end;
+    padding-right: 2%;
+    color: var(--champagne);
+  }
   .hero-astronaut { z-index: 20; }
   .hero-astronaut img { max-width: 82vw; }
   .hero-signature {
