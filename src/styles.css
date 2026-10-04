@@ -783,9 +783,8 @@
 }
 @media (max-width: 767px) { .cosmic-parallax { display: none; } }
 
-/* Desktop-only typographic depth: the astronaut cuts in front of the two-line name. */
-.hero-title-desktop,
-.hero-signature { display: none; }
+/* Desktop-only typographic depth: the astronaut cuts in front of a continuous greeting. */
+.hero-title-desktop { display: none; }
 
 @media (min-width: 1024px) and (pointer: fine) {
   .hero-stage { min-height: 100svh; }
@@ -793,47 +792,35 @@
     position: absolute;
     inset: 0;
     display: grid;
-    align-items: start;
-    padding: clamp(8rem, 12vh, 13rem) max(2.5rem, calc((100vw - 1600px) / 2)) 0;
+    align-items: center;
+    padding: 0;
     pointer-events: none;
   }
-  .hero-title-wrap h1 { width: 100%; }
+  .hero-title-wrap h1 { width: 100%; margin: 0; transform: translateZ(0); }
   .hero-title-desktop {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    width: 100%;
+    overflow: hidden;
     font-family: var(--font-condensed);
     font-weight: 700;
-    font-size: clamp(8rem, 17vw, 21rem);
-    line-height: 0.82;
+    font-size: clamp(8rem, 15vw, 17rem);
+    line-height: 1;
     color: var(--foreground);
-    text-align: center;
-    text-shadow: 0 0 45px color-mix(in oklab, var(--primary) 20%, transparent);
+    white-space: nowrap;
+    text-shadow: 0 0 40px color-mix(in oklab, var(--primary) 15%, transparent);
   }
-  .hero-title-desktop span:last-child {
-    align-self: flex-end;
-    padding-right: 2%;
-    color: var(--champagne);
+  .hero-title-track {
+    display: flex;
+    width: max-content;
+    animation: hero-greeting-loop 24s linear infinite;
   }
+  .hero-title-phrase { display: block; flex: none; }
+  @keyframes hero-greeting-loop { to { transform: translate3d(-50%, 0, 0); } }
   .hero-astronaut { z-index: 20; }
   .hero-astronaut img { max-width: 82vw; }
-  .hero-signature {
-    display: block;
-    position: absolute;
-    z-index: 25;
-    top: 2rem;
-    right: max(2.5rem, calc((100vw - 1600px) / 2));
-    margin: 0;
-    font-family: var(--font-condensed);
-    font-size: clamp(2rem, 4vw, 4rem);
-    font-weight: 700;
-    line-height: 1;
-    color: var(--champagne);
-    text-shadow: 0 0 30px color-mix(in oklab, var(--primary) 48%, transparent);
-    pointer-events: none;
-  }
-  .hero-signature span { color: var(--primary); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-title-wrap h1, .hero-astronaut { transform: none !important; }
+  .hero-title-track { animation: none !important; }
 }
