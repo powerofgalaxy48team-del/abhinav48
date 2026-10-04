@@ -754,3 +754,73 @@
     animation: none !important;
   }
 }
+
+/* Cosmic parallax layers */
+.cosmic-parallax { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.cosmic-parallax > * { position: absolute; will-change: transform; }
+.cosmic-parallax__nebula { border-radius: 50%; filter: blur(60px); }
+.cosmic-parallax__nebula--gold {
+  background: radial-gradient(circle, color-mix(in oklab, var(--primary) 55%, transparent), transparent 65%);
+}
+.cosmic-parallax__nebula--violet {
+  background: radial-gradient(circle, color-mix(in oklab, #6D28D9 45%, transparent), transparent 65%);
+}
+.cosmic-parallax__nebula--ember {
+  background: radial-gradient(circle, color-mix(in oklab, var(--ember) 50%, transparent), transparent 65%);
+}
+.cosmic-parallax__ring {
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--champagne) 70%, transparent);
+  box-shadow: 0 0 24px color-mix(in oklab, var(--primary) 35%, transparent),
+    inset 0 0 24px color-mix(in oklab, var(--primary) 20%, transparent);
+  transform: rotateX(var(--tilt, 60deg));
+}
+.cosmic-parallax__constellation { color: var(--champagne); }
+.cosmic-parallax__orb {
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--champagne), var(--primary) 60%, transparent 75%);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--primary) 70%, transparent);
+}
+@media (max-width: 767px) { .cosmic-parallax { display: none; } }
+
+/* Desktop-only typographic depth: the astronaut cuts in front of a continuous greeting. */
+.hero-title-desktop { display: none; }
+
+@media (min-width: 1024px) and (pointer: fine) {
+  .hero-stage { min-height: 100svh; }
+  .hero-title-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-items: center;
+    padding: 0;
+    pointer-events: none;
+  }
+  .hero-title-wrap h1 { width: 100%; margin: 0; transform: translateZ(0); }
+  .hero-title-desktop {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    font-family: var(--font-condensed);
+    font-weight: 700;
+    font-size: clamp(8rem, 15vw, 17rem);
+    line-height: 1;
+    color: var(--foreground);
+    white-space: nowrap;
+    text-shadow: 0 0 40px color-mix(in oklab, var(--primary) 15%, transparent);
+  }
+  .hero-title-track {
+    display: flex;
+    width: max-content;
+    animation: hero-greeting-loop 24s linear infinite;
+  }
+  .hero-title-phrase { display: block; flex: none; }
+  @keyframes hero-greeting-loop { to { transform: translate3d(-50%, 0, 0); } }
+  .hero-astronaut { z-index: 20; }
+  .hero-astronaut img { max-width: 82vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-wrap h1, .hero-astronaut { transform: none !important; }
+  .hero-title-track { animation: none !important; }
+}
