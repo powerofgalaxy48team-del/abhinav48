@@ -211,7 +211,7 @@ function Index() {
             width={1200}
             height={1408}
             alt="Faceless astronaut helmet with violet smoke — the site's cosmic sigil"
-            className="float-slow h-[78vh] w-auto object-contain md:h-[92vh] lg:h-[74vh]"
+            className="float-slow h-[78vh] w-auto object-contain md:h-[92vh] lg:h-[88vh]"
             style={{
               maskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
               WebkitMaskImage: "linear-gradient(to bottom, #000 55%, transparent 96%)",
