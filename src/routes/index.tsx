@@ -235,14 +235,9 @@ function Index() {
 
           <div className="hidden flex-col items-end gap-6 text-right md:flex">
             <p className="text-shine text-lg leading-relaxed md:text-xl">
-              目に見える世界の
+              4 幽玄
               <br />
-              すぐその下に隠された
-              <br />
-              深く、究極の真理を
-              <br />
-              見出すこと
-              <br />
+              8 烏鎮
             </p>
             <a
               href="#work"
