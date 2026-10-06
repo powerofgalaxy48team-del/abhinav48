@@ -90,12 +90,75 @@ function Cursor() {
   );
 }
 
+function ScrollProgress() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let frame: number | null = null;
+    const apply = () => {
+      frame = null;
+      const el = ref.current;
+      if (!el) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      el.style.transform = `scaleX(${progress})`;
+    };
+    const h = () => {
+      if (frame === null) frame = requestAnimationFrame(apply);
+    };
+    apply();
+    window.addEventListener("scroll", h, { passive: true });
+    window.addEventListener("resize", h);
+    return () => {
+      window.removeEventListener("scroll", h);
+      window.removeEventListener("resize", h);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
+  }, []);
+  return <div ref={ref} aria-hidden className="scroll-progress" />;
+}
+
+const tickerItems = [
+  "QUANTUM PHYSICS",
+  "MICROPLASTICS",
+  "NON-VERBAL PSYCHOLOGY",
+  "HUMAN CONSCIOUSNESS",
+  "STOICISM",
+  "EXISTENTIALISM",
+  "CYBERDECKS",
+  "FREQUENCIES & ENERGY",
+];
+
+function Ticker() {
+  return (
+    <div
+      className="ticker relative z-10 border-y border-border/60 bg-card/40 py-4 md:py-5"
+      aria-hidden="true"
+    >
+      <div className="ticker__track">
+        {[0, 1].map((copy) => (
+          <div key={copy} className="flex flex-none items-center">
+            {tickerItems.map((t) => (
+              <span key={t} className="flex flex-none items-center">
+                <span className="px-5 font-condensed text-xl tracking-[0.08em] text-foreground/70 md:px-7 md:text-3xl">
+                  {t}
+                </span>
+                <span className="text-xs text-primary md:text-sm">◆</span>
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Section({
   id,
   label,
   jp,
   index,
   title,
+  className = "",
   children,
 }: {
   id: string;
@@ -103,18 +166,23 @@ function Section({
   jp?: string;
   index?: string;
   title: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32">
+    <section
+      id={id}
+      className={`section-atmosphere relative mx-auto max-w-6xl px-6 py-24 md:py-32 ${className}`}
+    >
+      {index ? <span className="ghost-index" aria-hidden="true">{index}</span> : null}
       {jp ? <span className="vertical-mark" aria-hidden="true">{jp}</span> : null}
-      <div className="flex items-center gap-4">
+      <div className="relative flex items-center gap-4">
         {index ? <span className="font-mono text-xs text-primary">{index}</span> : null}
         <p className="eyebrow">{label}</p>
         <span className="gold-rule" aria-hidden="true" />
       </div>
-      <h2 className="mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
-      <div className="mt-12">{children}</div>
+      <h2 className="relative mt-5 max-w-2xl text-3xl leading-tight md:text-5xl">{title}</h2>
+      <div className="relative mt-12">{children}</div>
     </section>
   );
 
@@ -149,6 +217,7 @@ function Index() {
   return (
     <main className="grain relative min-h-screen overflow-x-clip bg-background">
       <Cursor />
+      <ScrollProgress />
       <CosmicParallax />
 
       {/* HERO */}
@@ -253,6 +322,7 @@ function Index() {
         <div className="absolute inset-x-0 bottom-0 z-30 h-24 bg-gradient-to-t from-background to-transparent" />
       </header>
 
+      <Ticker />
 
       {/* RESEARCH */}
       <Section
@@ -265,6 +335,10 @@ function Index() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {research.map((r, i) => (
             <TiltCard key={r.t} className="h-full p-6">
+              <span
+                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                aria-hidden="true"
+              />
               <p className="font-mono text-xs text-primary">
                 {String(i + 1).padStart(2, "0")}
               </p>
@@ -305,7 +379,7 @@ function Index() {
                   <h3 className="mt-4 text-2xl">{p.t}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
                 </div>
-                <span className="mt-8 font-mono text-xs text-primary">Visit ↗</span>
+                <span className="mt-8 inline-block font-mono text-xs text-primary transition-transform duration-500 group-hover:translate-x-1.5">Visit ↗</span>
               </TiltCard>
             </a>
           ))}
@@ -356,7 +430,7 @@ function Index() {
       </Section>
 
       {/* QUOTES */}
-      <Section id="quotes" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
+      <Section id="quotes" className="section-invert" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
         <div className="grid gap-8 md:grid-cols-3">
           {quotes.map((q) => (
             <TiltCard key={q.by} className="h-full" intensity={8}>
@@ -418,7 +492,10 @@ function Index() {
         </div>
         <div className="aurora absolute inset-0 rotate-180 opacity-60" />
         <div className="relative mx-auto max-w-6xl px-6 py-20 text-center">
-          <p className="font-display text-3xl italic md:text-5xl">
+          <p className="footer-mega select-none" aria-hidden="true">
+            ABHINAV BYJU
+          </p>
+          <p className="mt-8 font-display text-3xl italic md:text-5xl">
             "I searched for myself and found only God."
           </p>
           <p className="mt-6 eyebrow">幽玄 ·ABHINAV BYJU · KERALA, INDIA · 悟真</p>
