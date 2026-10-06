@@ -824,3 +824,115 @@
   .hero-title-wrap h1, .hero-astronaut { transform: none !important; }
   .hero-title-track { animation: none !important; }
 }
+
+/* ---------- Gold scroll-progress hairline ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 60;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--ember), var(--champagne) 45%, var(--primary));
+  box-shadow: 0 0 12px color-mix(in oklab, var(--primary) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: 0 0;
+}
+
+/* ---------- Ghost section numerals ---------- */
+.ghost-index {
+  position: absolute;
+  top: 3.5rem;
+  right: -0.5rem;
+  z-index: 0;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: clamp(7rem, 20vw, 18rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--primary) 30%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Inverted paper section (positive/negative framing) ---------- */
+.section-invert {
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 0%, color-mix(in oklab, var(--champagne) 60%, transparent), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 85% 100%, color-mix(in oklab, var(--primary) 30%, transparent), transparent 72%),
+    var(--foreground);
+  color: var(--ink);
+}
+
+.section-invert h2,
+.section-invert h3 {
+  color: var(--ink);
+}
+
+.section-invert .eyebrow {
+  color: color-mix(in oklab, var(--ink) 58%, transparent);
+}
+
+.section-invert .vertical-mark {
+  color: color-mix(in oklab, var(--ink) 34%, transparent);
+}
+
+.section-invert .ghost-index {
+  -webkit-text-stroke-color: color-mix(in oklab, var(--primary) 45%, transparent);
+}
+
+.section-invert .card-3d {
+  background: color-mix(in oklab, var(--ink) 94%, transparent);
+  border-color: color-mix(in oklab, var(--champagne) 20%, transparent);
+  box-shadow:
+    inset 0 1px color-mix(in oklab, var(--champagne) 8%, transparent),
+    0 30px 70px -40px oklch(0 0 0 / 0.55);
+}
+
+.section-invert .card-3d .eyebrow {
+  color: color-mix(in oklab, var(--champagne) 70%, transparent);
+}
+
+.section-invert .card-3d .quote-vertical {
+  color: color-mix(in oklab, var(--primary) 70%, transparent);
+}
+
+/* ---------- Gold ticker strip ---------- */
+.ticker {
+  overflow: hidden;
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .ticker__track {
+    animation: ticker-scroll 32s linear infinite;
+  }
+}
+
+@keyframes ticker-scroll {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ---------- Footer signature ---------- */
+.footer-mega {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(3.2rem, 13vw, 13rem);
+  line-height: 0.85;
+  letter-spacing: 0.01em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--champagne) 50%, transparent);
+  transition: color 700ms ease, -webkit-text-stroke-color 700ms ease;
+}
+
+.footer-mega:hover {
+  color: color-mix(in oklab, var(--primary) 28%, transparent);
+  -webkit-text-stroke-color: color-mix(in oklab, var(--primary) 80%, transparent);
+}
