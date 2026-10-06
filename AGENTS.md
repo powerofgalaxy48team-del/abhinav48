@@ -9,4 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Keep the astronaut/greeting depth and continuous text loop inside the hero and gated to fine-pointer desktop viewports; this preserves the simpler touch layout and avoids scroll-driven React renders.
+- Continuous loops (hero greeting, ticker marquee) and scroll-driven transforms run only on fine-pointer desktop viewports and update the DOM via rAF, never React state; touch layouts stay static and simple.
