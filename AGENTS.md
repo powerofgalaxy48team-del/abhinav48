@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Continuous loops (hero greeting, ticker marquee) and scroll-driven transforms run only on fine-pointer desktop viewports and update the DOM via rAF, never React state; touch layouts stay static and simple.
+- Build the orbiting-interests orrery with CSS 3D transforms rather than WebGL; its decorative motion should remain lightweight and gracefully static for touch and reduced-motion users.

@@ -9,3 +9,4 @@
 - [x] Apply the specified deep-space, antique-gold, champagne, ember, warm-text, and restrained-violet palette across the full page
 - [x] Give the astronaut and name separate scroll depths on desktop, keeping the name readable
 - [x] Loop “HELLO, I AM ABHINAV BYJU” behind the astronaut on desktop and verify the presentation
+- [ ] Replace the orbiting-interests diagram with the selected 3D celestial orrery and verify desktop/mobile rendering
