@@ -33,12 +33,15 @@ export function OrbitDiagram({ items }: { items: string[] }) {
   ];
 
   return (
-    <div className="orrery mx-auto aspect-square w-full max-w-[780px]" role="list" aria-label="Orbiting interests">
+    <div className="orrery mx-auto aspect-square w-full max-w-[780px]">
+      <ul className="sr-only" aria-label="Orbiting interests">
+        {items.map((item) => <li key={item}>{item}</li>)}
+      </ul>
       <div className="orrery__stage" aria-hidden="true">
         <div className="orrery__glow" />
         <div className="orrery__axis" />
         {rings.map((ring) => (
-          <div key={ring.size} className={`orrery__orbit orrery__orbit--${ring.size}`} aria-hidden="true">
+          <div key={ring.size} className={`orrery__orbit orrery__orbit--${ring.size}`}>
             <div
               className={`orrery__spin${ring.reverse ? " orrery__spin--reverse" : ""}`}
               style={{ animationDuration: `${ring.duration}s` }}
@@ -47,16 +50,17 @@ export function OrbitDiagram({ items }: { items: string[] }) {
                 const angle = ring.offset + (360 / ring.items.length) * index;
                 const placement: OrbitStyle = {
                   "--slot-angle": `${angle}deg`,
-                  "--orbit-radius": ring.size === "inner" ? "29cqw" : "46cqw",
                   "--node-depth": `${12 + (index % 4) * 7}px`,
                 };
                 return (
-                  <div key={item} className="orrery__slot" style={placement} role="listitem">
+                  <div key={item} className="orrery__slot" style={placement}>
                     <div
                       className={`orrery__counter${ring.reverse ? " orrery__counter--reverse" : ""}`}
                       style={{ animationDuration: `${ring.duration}s` }}
                     >
-                      <span className="orrery__chip">{item}</span>
+                      <span className="orrery__upright" style={placement}>
+                        <span className="orrery__chip">{item}</span>
+                      </span>
                     </div>
                   </div>
                 );
