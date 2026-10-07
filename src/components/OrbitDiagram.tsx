@@ -3,6 +3,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 type OrbitStyle = CSSProperties & {
   "--slot-angle": string;
+  "--orbit-radius": string;
   "--node-depth": string;
 };
 
@@ -46,6 +47,7 @@ export function OrbitDiagram({ items }: { items: string[] }) {
                 const angle = ring.offset + (360 / ring.items.length) * index;
                 const placement: OrbitStyle = {
                   "--slot-angle": `${angle}deg`,
+                  "--orbit-radius": ring.size === "inner" ? "29cqw" : "46cqw",
                   "--node-depth": `${12 + (index % 4) * 7}px`,
                 };
                 return (
