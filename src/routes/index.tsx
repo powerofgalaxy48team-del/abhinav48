@@ -402,7 +402,7 @@ function Index() {
 
       {/* WORK */}
       <Section id="work" label="Built things" jp="制作" index="02" title="Websites and one prototype for the planet.">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
               t: "Brilliant Driving Institute",
@@ -422,18 +422,38 @@ function Index() {
               href: "https://www.youtube.com/watch?v=qmoXq_uKwno",
               tag: "Hardware prototype",
             },
-          ].map((p) => (
-            <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+            {
+              t: "PinKerala",
+              d: "A peer-to-peer marketplace for authentic and pre-loved Kerala goods — listings, request boards, courier logistics and 7-day escrow. Currently 30% built.",
+              tag: "Startup · in progress",
+            },
+          ].map((p) => {
+            const card = (
               <TiltCard className="flex h-full flex-col justify-between p-7">
                 <div>
                   <p className="eyebrow">{p.tag}</p>
                   <h3 className="mt-4 text-2xl">{p.t}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
                 </div>
-                <span className="mt-8 inline-block font-mono text-xs text-primary transition-transform duration-500 group-hover:translate-x-1.5">Visit ↗</span>
+                <span className="mt-8 inline-block font-mono text-xs text-primary">
+                  {p.href ? (
+                    <span className="transition-transform duration-500 group-hover:translate-x-1.5">Visit ↗</span>
+                  ) : (
+                    <span className="tracking-[0.14em]">In the making…</span>
+                  )}
+                </span>
               </TiltCard>
-            </a>
-          ))}
+            );
+            return p.href ? (
+              <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+                {card}
+              </a>
+            ) : (
+              <div key={p.t} className="block h-full rounded-lg">
+                {card}
+              </div>
+            );
+          })}
         </div>
 
         <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
