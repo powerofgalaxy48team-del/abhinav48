@@ -605,7 +605,7 @@ function Index() {
             ABHINAV BYJU
           </p>
           <p className="mt-8 font-display text-3xl italic md:text-5xl">
-            "I searched for myself and found only God."
+            "I searched for myself and found only God ~ Rumi"
           </p>
           <p className="mt-6 eyebrow">幽玄 ·ABHINAV BYJU · KERALA, INDIA · 悟真</p>
         </div>
