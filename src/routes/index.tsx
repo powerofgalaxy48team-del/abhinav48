@@ -32,14 +32,17 @@ export const Route = createFileRoute("/")({
 });
 
 const research = [
-  { t: "Micro Plastics", d: "Tracing invisible polymers through water, soil, and bloodstreams." },
+  {
+    t: "Systems, Agendas & Institutions",
+    d: "How governmental structures shape incentive, narrative, and policy — and how global bodies like the WHO and the World Bank move funding and influence.",
+  },
   {
     t: "Non-verbal Psychology & Consciousness",
     d: "Micro-expressions, posture, and the sentences bodies say out loud — and beneath them, energy points, awareness models, and the medical frame around them.",
   },
   {
-    t: "Systems, Agendas & Institutions",
-    d: "How governmental structures shape incentive, narrative, and policy — and how global bodies like the WHO and the World Bank move funding and influence.",
+    t: "Micro Plastics",
+    d: "Tracing invisible polymers through water, soil, and bloodstreams.",
   },
 ];
 
