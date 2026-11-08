@@ -11,4 +11,4 @@
 - [x] Loop “HELLO, I AM ABHINAV BYJU” behind the astronaut on desktop and verify the presentation
 - [x] Add Cosmic Cool as a 2026 3D portfolio project
 - [x] Add an animated black-hole portal button on the home page
-- [ ] Verify the new project card and portal button in the live preview
+- [x] Verify the new project card and portal button on desktop and mobile; build and runtime checks pass
