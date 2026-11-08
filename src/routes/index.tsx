@@ -527,7 +527,7 @@ function Index() {
                   <span className="quote-mark" aria-hidden="true">“</span>
                   <span className="quote-vertical" aria-hidden="true">{q.vertical}</span>
                 </div>
-                <p className="mt-6 font-display text-lg italic leading-snug">"{q.text}"</p>
+                <p className="mt-6 font-display text-xl not-italic leading-relaxed text-card-foreground md:text-2xl">"{q.text}"</p>
                 <div className="mt-auto pt-8">
                   <div className="flex items-center gap-4">
                     <span className="quote-diamond" aria-hidden="true">◆</span>
