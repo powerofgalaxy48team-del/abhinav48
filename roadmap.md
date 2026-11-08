@@ -9,3 +9,6 @@
 - [x] Apply the specified deep-space, antique-gold, champagne, ember, warm-text, and restrained-violet palette across the full page
 - [x] Give the astronaut and name separate scroll depths on desktop, keeping the name readable
 - [x] Loop “HELLO, I AM ABHINAV BYJU” behind the astronaut on desktop and verify the presentation
+- [x] Add Cosmic Cool as a 2026 3D portfolio project
+- [x] Add an animated black-hole portal button on the home page
+- [ ] Verify the new project card and portal button in the live preview
