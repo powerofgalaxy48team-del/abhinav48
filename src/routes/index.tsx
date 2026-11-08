@@ -343,7 +343,7 @@ function Index() {
         </div>
 
         {/* corner meta */}
-        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 items-end justify-between gap-6 px-6 pb-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 flex-col items-center justify-end gap-6 px-6 pb-10 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:flex-row md:items-end md:justify-between md:text-left">
           <div className="space-y-3">
             <p className="role-stack text-4xl normal-case md:text-6xl lg:text-7xl">
               Researcher &
@@ -355,19 +355,27 @@ function Index() {
             <p className="opacity-60">09.9312 N · 76.2673 E · Kerala</p>
           </div>
 
-          <div className="hidden flex-col items-end gap-6 text-right md:flex">
+          <div className="flex flex-col items-center gap-3 text-center md:items-end md:gap-6 md:text-right">
             <p className="text-shine text-lg leading-relaxed md:text-xl">
               4 幽玄
               <br />
               8 烏鎮
             </p>
             <a
-              href="#work"
-              className="shimmer group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
-              style={{ boxShadow: "var(--shadow-glow)" }}
+              href="https://cosmic-cool.netlify.app/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Let's travel to a new universe — open Cosmic Cool portfolio"
+              className="black-hole-link group"
             >
-              <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
-                Explore
+              <span className="black-hole-link__disk" aria-hidden="true" />
+              <span className="black-hole-link__horizon" aria-hidden="true" />
+              <span className="black-hole-link__label">
+                Let’s travel
+                <br />
+                to a new
+                <br />
+                universe <span aria-hidden="true">↗</span>
               </span>
             </a>
           </div>
@@ -407,6 +415,12 @@ function Index() {
       <Section id="work" label="Built things" jp="制作" index="02" title="Websites and one prototype for the planet.">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
+            {
+              t: "Cosmic Cool",
+              d: "A cosmic-inspired portfolio website with a fresh visual direction and immersive 3D elements.",
+              href: "https://cosmic-cool.netlify.app/",
+              tag: "Portfolio website · 2026 · 3D",
+            },
             {
               t: "Brilliant Driving Institute",
               d: "A clean, conversion-focused site for a local driving school.",
