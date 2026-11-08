@@ -343,7 +343,7 @@ function Index() {
         </div>
 
         {/* corner meta */}
-        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 items-end justify-between gap-6 px-6 pb-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 flex-col items-center justify-end gap-6 px-6 pb-10 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:flex-row md:items-end md:justify-between md:text-left">
           <div className="space-y-3">
             <p className="role-stack text-4xl normal-case md:text-6xl lg:text-7xl">
               Researcher &
