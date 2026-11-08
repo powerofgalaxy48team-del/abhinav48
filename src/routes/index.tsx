@@ -32,12 +32,18 @@ export const Route = createFileRoute("/")({
 });
 
 const research = [
-  { t: "Quantum Physics", d: "Superposition, entanglement, and where measurement quietly breaks intuition." },
-  { t: "Micro Plastics", d: "Tracing invisible polymers through water, soil, and bloodstreams." },
-  { t: "Non-verbal Psychology", d: "Micro-expressions, posture, and the sentences bodies say out loud." },
-  { t: "Systems & Agendas", d: "How governmental structures shape incentive, narrative, and policy." },
-  { t: "WHO & World Banks", d: "Global institutions, funding flows, and the mechanics of influence." },
-  { t: "Human Consciousness", d: "Energy points, awareness models, and the medical frame around them." },
+  {
+    t: "Systems, Agendas & Institutions",
+    d: "How governmental structures shape incentive, narrative, and policy — and how global bodies like the WHO and the World Bank move funding and influence.",
+  },
+  {
+    t: "Non-verbal Psychology & Consciousness",
+    d: "Micro-expressions, posture, and the sentences bodies say out loud — and beneath them, energy points, awareness models, and the medical frame around them.",
+  },
+  {
+    t: "Micro Plastics",
+    d: "Tracing invisible polymers through water, soil, and bloodstreams.",
+  },
 ];
 
 const quotes = [
@@ -55,6 +61,11 @@ const quotes = [
     vertical: "RUMI",
     text: "I searched for God and found myself, I searched for myself and found only God.",
     by: "Rumi — my deepest favourite",
+  },
+  {
+    vertical: "MY OWN",
+    text: "The universe answers other prayer through you, so be there",
+    by: "Abhinav Byju",
   },
 ];
 
@@ -188,7 +199,49 @@ function Section({
 
 }
 
+function OrbitModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", h);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", h);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="orbit-modal fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-10"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Orbiting interests"
+    >
+      <div className="absolute inset-0 bg-void/85 backdrop-blur-md" onClick={onClose} aria-hidden="true" />
+      <div className="orbit-modal__panel relative w-full max-w-3xl overflow-hidden rounded-lg border border-border bg-card/95 shadow-2xl">
+        <div className="cosmos-stars absolute inset-0 opacity-25" aria-hidden="true" />
+        <button
+          onClick={onClose}
+          aria-label="Close the orbit"
+          className="absolute right-4 top-4 z-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-primary"
+        >
+          Close ✕
+        </button>
+        <div className="relative px-6 py-10 md:px-10">
+          <p className="eyebrow text-center">興味 · The mind, set spinning</p>
+          <div className="mt-8">
+            <OrbitDiagram items={topics} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Index() {
+  const [orbitOpen, setOrbitOpen] = useState(false);
   // Desktop hero layers move at different speeds without re-rendering the page.
   const nameRef = useRef<HTMLHeadingElement>(null);
   const helmetRef = useRef<HTMLDivElement>(null);
@@ -219,6 +272,7 @@ function Index() {
       <Cursor />
       <ScrollProgress />
       <CosmicParallax />
+      {orbitOpen ? <OrbitModal onClose={() => setOrbitOpen(false)} /> : null}
 
       {/* HERO */}
       <header className="hero-stage relative flex min-h-screen flex-col justify-between overflow-hidden">
@@ -289,7 +343,7 @@ function Index() {
         </div>
 
         {/* corner meta */}
-        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 items-end justify-between gap-6 px-6 pb-10 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+        <div className="relative z-30 mx-auto flex w-full max-w-[1600px] flex-1 flex-col items-center justify-end gap-6 px-6 pb-10 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:flex-row md:items-end md:justify-between md:text-left">
           <div className="space-y-3">
             <p className="role-stack text-4xl normal-case md:text-6xl lg:text-7xl">
               Researcher &
@@ -301,19 +355,27 @@ function Index() {
             <p className="opacity-60">09.9312 N · 76.2673 E · Kerala</p>
           </div>
 
-          <div className="hidden flex-col items-end gap-6 text-right md:flex">
+          <div className="flex flex-col items-center gap-3 text-center md:items-end md:gap-6 md:text-right">
             <p className="text-shine text-lg leading-relaxed md:text-xl">
               4 幽玄
               <br />
               8 烏鎮
             </p>
             <a
-              href="#work"
-              className="shimmer group grid h-28 w-28 place-items-center rounded-full border border-border/60 text-xs tracking-[0.2em] transition-all duration-500 hover:border-primary hover:text-primary"
-              style={{ boxShadow: "var(--shadow-glow)" }}
+              href="https://cosmic-cool.netlify.app/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Let's travel to a new universe — open Cosmic Cool portfolio"
+              className="black-hole-link group"
             >
-              <span className="transition-transform duration-500 group-hover:-translate-y-0.5">
-                Explore
+              <span className="black-hole-link__disk" aria-hidden="true" />
+              <span className="black-hole-link__horizon" aria-hidden="true" />
+              <span className="black-hole-link__label">
+                Let’s travel
+                <br />
+                to a new
+                <br />
+                universe <span aria-hidden="true">↗</span>
               </span>
             </a>
           </div>
@@ -351,8 +413,14 @@ function Index() {
 
       {/* WORK */}
       <Section id="work" label="Built things" jp="制作" index="02" title="Websites and one prototype for the planet.">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
+            {
+              t: "Cosmic Cool",
+              d: "A cosmic-inspired portfolio website with a fresh visual direction and immersive 3D elements.",
+              href: "https://cosmic-cool.netlify.app/",
+              tag: "Portfolio website · 2026 · 3D",
+            },
             {
               t: "Brilliant Driving Institute",
               d: "A clean, conversion-focused site for a local driving school.",
@@ -371,18 +439,38 @@ function Index() {
               href: "https://www.youtube.com/watch?v=qmoXq_uKwno",
               tag: "Hardware prototype",
             },
-          ].map((p) => (
-            <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+            {
+              t: "PinKerala",
+              d: "A peer-to-peer marketplace for authentic and pre-loved Kerala goods — listings, request boards, courier logistics and 7-day escrow. Currently 30% built.",
+              tag: "Startup · in progress",
+            },
+          ].map((p) => {
+            const card = (
               <TiltCard className="flex h-full flex-col justify-between p-7">
                 <div>
                   <p className="eyebrow">{p.tag}</p>
                   <h3 className="mt-4 text-2xl">{p.t}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
                 </div>
-                <span className="mt-8 inline-block font-mono text-xs text-primary transition-transform duration-500 group-hover:translate-x-1.5">Visit ↗</span>
+                <span className="mt-8 inline-block font-mono text-xs text-primary">
+                  {p.href ? (
+                    <span className="transition-transform duration-500 group-hover:translate-x-1.5">Visit ↗</span>
+                  ) : (
+                    <span className="tracking-[0.14em]">In the making…</span>
+                  )}
+                </span>
               </TiltCard>
-            </a>
-          ))}
+            );
+            return p.href ? (
+              <a key={p.t} href={p.href} target="_blank" rel="noreferrer" className="shimmer block h-full rounded-lg">
+                {card}
+              </a>
+            ) : (
+              <div key={p.t} className="block h-full rounded-lg">
+                {card}
+              </div>
+            );
+          })}
         </div>
 
         <TiltCard className="mt-8 p-8 md:p-12" intensity={5}>
@@ -431,7 +519,7 @@ function Index() {
 
       {/* QUOTES */}
       <Section id="quotes" className="section-invert" label="Three lines I live near" jp="言葉" index="03" title="Words that keep rearranging me.">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {quotes.map((q) => (
             <TiltCard key={q.by} className="h-full" intensity={8}>
               <div className="flex h-full flex-col p-8">
@@ -439,7 +527,7 @@ function Index() {
                   <span className="quote-mark" aria-hidden="true">“</span>
                   <span className="quote-vertical" aria-hidden="true">{q.vertical}</span>
                 </div>
-                <p className="mt-6 font-display text-lg italic leading-snug">"{q.text}"</p>
+                <p className="mt-6 font-display text-xl not-italic leading-relaxed text-card-foreground md:text-2xl">"{q.text}"</p>
                 <div className="mt-auto pt-8">
                   <div className="flex items-center gap-4">
                     <span className="quote-diamond" aria-hidden="true">◆</span>
@@ -480,10 +568,48 @@ function Index() {
         </div>
       </section>
 
-      {/* TOPICS */}
+      {/* TOPICS — opens as an overlay on click */}
       <Section id="topics" label="Orbiting interests" jp="興味" index="05" title="What the mind circles when it's free.">
-        <OrbitDiagram items={topics} />
+        <div className="flex flex-col items-center gap-8 py-6 text-center">
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+            Eight things my attention keeps circling — research rabbit holes, old philosophies, and machines
+            wired together from scrap. Open the orbit to watch them turn.
+          </p>
+          <button
+            onClick={() => setOrbitOpen(true)}
+            className="shimmer group inline-flex items-center gap-3 border border-border px-8 py-4 font-mono text-[11px] uppercase tracking-[0.24em] text-primary transition-all duration-500 hover:border-primary hover:text-primary"
+            style={{ boxShadow: "var(--shadow-glow)" }}
+          >
+            Enter the orbit
+            <span className="transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+          </button>
+        </div>
       </Section>
+
+      {/* CLOSING QUOTE — a full page of its own on desktop */}
+      <section
+        id="mantra"
+        aria-label="A line I live by"
+        className="relative hidden min-h-screen items-center justify-center overflow-hidden border-t border-border lg:flex"
+      >
+        <div className="starfield absolute inset-0 opacity-40" aria-hidden="true" />
+        <div className="cosmos-stars absolute inset-0 opacity-35" aria-hidden="true" />
+        <div className="aurora absolute inset-0 opacity-60" aria-hidden="true" />
+        <div className="relative mx-auto max-w-5xl px-6 py-32 text-center">
+          <span className="quote-mark block" aria-hidden="true">“</span>
+          <p className="mt-10 font-display text-4xl leading-tight md:text-6xl xl:text-7xl">
+            The universe answers other prayer through you,
+            <br />
+            <span className="text-shine italic">so be there</span>.
+          </p>
+          <div className="mx-auto mt-12 flex max-w-xs items-center justify-center gap-4">
+            <span className="gold-rule" aria-hidden="true" />
+            <span className="quote-diamond" aria-hidden="true">◆</span>
+            <span className="gold-rule" aria-hidden="true" />
+          </div>
+          <p className="mt-6 eyebrow">Abhinav Byju · a line I live by</p>
+        </div>
+      </section>
 
       {/* FOOTER */}
       <footer className="relative overflow-hidden border-t border-border">
@@ -496,7 +622,7 @@ function Index() {
             ABHINAV BYJU
           </p>
           <p className="mt-8 font-display text-3xl italic md:text-5xl">
-            "I searched for myself and found only God."
+            "I searched for myself and found only God ~ Rumi"
           </p>
           <p className="mt-6 eyebrow">幽玄 ·ABHINAV BYJU · KERALA, INDIA · 悟真</p>
         </div>
